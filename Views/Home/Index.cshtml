@@ -1,0 +1,64 @@
+﻿@model IEnumerable<PU>
+
+@{
+    ViewData["Title"] = "Registro de PU electronico";
+}
+
+<h2>PUs registrados</h2>
+
+<a asp-action="Crear" asp-controller="Inspeccion">➕ Nueva inspección</a>
+
+@if (Model != null && Model.Any())
+{
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Empleado</th>
+                <th>Turno</th>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Extruder</th>
+                <th>Proceso</th>
+                <th>Id</th>
+                <th>Longitud</th>
+                <th>Pared12</th>
+                <th>Pared3</th>
+                <th>Pared6</th>
+                <th>Pared9</th>
+                <th>Pitch</th>
+                <th>LongLeyenda</th>
+                <th>GrosorLeyenda</th>
+                <th>Logo</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                   
+                    <td>@item?.Nombre (@item?.NroEmpleado)</td>
+                    <td>@item?.Turno</td>
+                    <td>@item?.Fecha.ToShortDateString()</td>
+                    <td>@item?.Hora</td>
+                    <td>@item?.Extruder</td>
+                    <td>@item?.Proceso</td>
+                    <td>@item?.Id</td>
+                    <td>@item?.Longitud</td>
+                    <td>@item?.Pared12</td>
+                    <td>@item?.Pared3</td>
+                    <td>@item?.Pared6</td>
+                    <td>@item?.Pared9</td>
+                    <td>@item?.Pitch</td>
+                    <td>@item?.LongLeyenda</td>
+                    <td>@item?.GrosorLeyenda</td>
+                    <td>@item?.Logo</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No hay inspecciones registradas.</p>
+}

@@ -1,0 +1,110 @@
+﻿@model PU
+
+@{
+    ViewData["Title"] = "Registro de Medidas PU Extruder";
+}
+
+<h2>Registro de Medidas PU Extruder</h2>
+
+@if (TempData["Mensaje"] != null)
+{
+    var tipo = TempData["TipoMensaje"]?.ToString() ?? "info";
+    <div class="alert alert-@tipo alert-dismissible fade show" role="alert">
+        @TempData["Mensaje"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+
+<form asp-action="Crear" method="post">
+
+    <div class="container">
+        <form asp-action="Crear" method="post">
+            <div class="row">
+                <!-- Columna 1: DATOS GENERALES -->
+                <div class="col-md-4">
+                    <h5>DATOS GENERALES</h5>
+                    <div class="mb-2">
+                        <label asp-for="NroEmpleado"></label>
+                        <input asp-for="NroEmpleado" class="form-control" />
+                    </div>
+                    <div class="mb-2">
+                        <label asp-for="Nombre"></label>
+                        <input asp-for="Nombre" class="form-control" />
+                    </div>
+                    <div class="mb-2">
+                        <label asp-for="Turno"></label>
+                        <input asp-for="Turno" class="form-control" />
+                    </div>
+                    <div class="mb-2">
+                        <label asp-for="Proceso"></label>
+                        <input asp-for="Proceso" class="form-control" />
+                    </div>
+                    <div class="mb-2">
+                        <label asp-for="Mandril"></label>
+                        <input asp-for="Mandril" class="form-control" />
+                    </div>
+                    <div class="mb-2">
+                        <label asp-for="Extruder"></label>
+                        <input asp-for="Extruder" class="form-control" />
+                    </div>
+                </div>
+
+                <!-- Columna 2: DATOS PRIMERA PIEZA -->
+                <div class="col-md-4">
+                    <h5>DATOS PRIMERA PIEZA</h5>
+                    <div class="mb-2"><label asp-for="Id"></label><input asp-for="Id" class="form-control" /></div>
+                    <div class="mb-2"><label asp-for="Longitud"></label><input asp-for="Longitud" class="form-control" /></div>
+                    <div class="mb-2"><label asp-for="Pared12"></label><input asp-for="Pared12" class="form-control" /></div>
+                    <div class="mb-2"><label asp-for="Pared3"></label><input asp-for="Pared3" class="form-control" /></div>
+                    <div class="mb-2"><label asp-for="Pared6"></label><input asp-for="Pared6" class="form-control" /></div>
+                    <div class="mb-2"><label asp-for="Pared9"></label><input asp-for="Pared9" class="form-control" /></div>
+                    <div class="mb-2"><label asp-for="Pitch"></label><input asp-for="Pitch" class="form-control" /></div>
+                    <div class="mb-2"><label asp-for="LongLeyenda"></label><input asp-for="LongLeyenda" class="form-control" /></div>
+                    <div class="mb-2"><label asp-for="GrosorLeyenda"></label><input asp-for="GrosorLeyenda" class="form-control" /></div>
+                    <div class="mb-2"><label asp-for="Logo"></label><input asp-for="Logo" class="form-control" /></div>
+                    <!-- Agrega más campos según tu modelo -->
+                </div>
+                <div class="col-md-4">
+                <!-- Columna 3: DATOS ÚLTIMA PIEZA -->
+                    <h5>DATOS ULTIMA PIEZA</h5>
+                    <div class="mb-2"><label asp-for="Id"></label><input asp-for="Id" class="form-control" /></div>
+                    <div class="mb-2"><label asp-for="Longitud"></label><input asp-for="Longitud" class="form-control" /></div>
+                    <div class="mb-2"><label asp-for="Pared12"></label><input asp-for="Pared12" class="form-control" /></div>
+                    <div class="mb-2"><label asp-for="Pared3"></label><input asp-for="Pared3" class="form-control" /></div>
+                    <div class="mb-2"><label asp-for="Pared6"></label><input asp-for="Pared6" class="form-control" /></div>
+                    <div class="mb-2"><label asp-for="Pared9"></label><input asp-for="Pared9" class="form-control" /></div>
+                    <div class="mb-2"><label asp-for="Pitch"></label><input asp-for="Pitch" class="form-control" /></div>
+                    <div class="mb-2"><label asp-for="LongLeyenda"></label><input asp-for="LongLeyenda" class="form-control" /></div>
+                    <div class="mb-2"><label asp-for="GrosorLeyenda"></label><input asp-for="GrosorLeyenda" class="form-control" /></div>
+                    <div class="mb-2"><label asp-for="Logo"></label><input asp-for="Logo" class="form-control" /></div>
+                    <!-- Agrega más campos según tu modelo -->
+                </div>
+            </div>
+
+            <!-- Comentarios y botones -->
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <label asp-for="Pitch"></label>
+                    <textarea asp-for="Pitch" class="form-control" rows="3"></textarea>
+                </div>
+            </div> 
+
+            <div class="row mt-3">
+                <div class="col-md-12 text-end">
+                    <button type="submit" class="btn btn-success">Guardar Registro</button>
+                    <button type="reset" class="btn btn-secondary">Limpiar</button>
+                        <a asp-action="Index" asp-controller="Home" class="btn btn-info">Mostrar Registros</a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</form>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
