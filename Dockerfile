@@ -5,8 +5,8 @@ WORKDIR /app
 COPY . ./
 
 # Asegúrate de que el nombre del proyecto sea correcto
-RUN dotnet restore WebApplication1.csproj
-RUN dotnet publish WebApplication1.csproj -c Release -o out
+RUN dotnet restore WebApplication4.csproj
+RUN dotnet publish WebApplication4.csproj -c Release -o out
 
 # Etapa de runtime con ASP.NET 6.0
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS runtime
