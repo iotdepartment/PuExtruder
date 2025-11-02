@@ -4,15 +4,13 @@ WORKDIR /app
 EXPOSE 80
 ENV ASPNETCORE_URLS=http://+:8080
 
-# Etapa 2: Imagen para compilación
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
-WORKDIR /src
+# Copiar solo el archivo .csproj primero
+COPY WebApplication4.csproj ./
 
-# Copiar archivos del proyecto
-COPY ["WebApplication4.csproj", "./"]
+# Restaurar dependencias
 RUN dotnet restore "WebApplication4.csproj"
 
-# Copiar el resto del código fuente
+# Copiar el resto del proyecto
 COPY . .
 
 # Publicar en modo Release
