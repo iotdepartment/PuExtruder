@@ -1,28 +1,29 @@
-# Etapa 1: Imagen base para ejecución
+# Etapa base para ejecución
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
-EXPOSE 80
+EXPOSE 8080
 ENV ASPNETCORE_URLS=http://+:8080
 
-# Copiar solo el archivo .csproj primero
-COPY WebApplication4.csproj ./
+# Etapa de compilación
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+WORKDIR /src
 
-# Restaurar dependencias
+# Copiar solo el archivo de proyecto y restaurar dependencias
+COPY WebApplication4.csproj ./
 RUN dotnet restore "WebApplication4.csproj"
 
-# Copiar el resto del proyecto
+# Copiar el resto del código fuente
 COPY . .
 
 # Publicar en modo Release
 RUN dotnet publish "WebApplication4.csproj" -c Release -o /app/publish
 
-# Etapa 3: Imagen final optimizada
+# Etapa final: imagen optimizada
 FROM base AS final
 WORKDIR /app
 COPY --from=build /app/publish .
 
-# Variables de entorno para conexión SQL Server
-ENV ConnectionStrings__DefaultConnection="Server=10.195.10.166;Database=PRUEBA;User Id=Manu;Password=2022.Tgram2;TrustServerCertificate=True;"
+# Cadena de conexión como variable de entorno
+ENV ConnectionStrings__DefaultConnection="Server=sqlserver;Database=PRUEBA;User Id=Manu;Password=2022.Tgram2;TrustServerCertificate=True;"
 
-# Punto de entrada
 ENTRYPOINT ["dotnet", "WebApplication4.dll"]
