@@ -1,18 +1,15 @@
-# Etapa 1: Build
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+WORKDIR /app
+EXPOSE 80
+
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-
-# Copia el archivo de proyecto correcto
-COPY ["WebApplication4.csproj", "./"]
-RUN dotnet restore "WebApplication4.csproj"
-
-# Copia el resto del código
 COPY . .
-RUN dotnet publish "WebApplication4.csproj" -c Release -o /app/publish
+RUN dotnet restore "WebApplication4.sln"
+RUN dotnet build "WebApplication4.sln" -c Release -o /app/build
+RUN dotnet publish "WebApplication4.sln" -c Release -o /app/publish
 
-# Etapa 2: Runtime
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+FROM base AS final
 WORKDIR /app
 COPY --from=build /app/publish .
-EXPOSE 80
 ENTRYPOINT ["dotnet", "WebApplication4.dll"]
