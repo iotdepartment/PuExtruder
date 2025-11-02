@@ -7,5 +7,5 @@ services:
     ports:
       - "10000:80"
     environment:
-      - ASPNETCORE_ENVIRONMENT=Production
-    restart: always
+      - ASPNETCORE_ENVIRONMENT=Develoment
+        restart: always
