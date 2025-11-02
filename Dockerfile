@@ -10,13 +10,13 @@ WORKDIR /src
 
 # Copiar archivos del proyecto
 COPY ["WebApplication4.csproj", "./"]
-RUN dotnet restore "./WebApplication4.csproj"
+RUN dotnet restore "WebApplication4.csproj"
 
 # Copiar el resto del código fuente
 COPY . .
 
 # Publicar en modo Release
-RUN dotnet publish "./WebApplication4.csproj" -c Release -o /app/publish
+RUN dotnet publish "WebApplication4.csproj" -c Release -o /app/publish
 
 # Etapa 3: Imagen final optimizada
 FROM base AS final
