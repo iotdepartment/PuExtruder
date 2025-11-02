@@ -8,10 +8,6 @@ ENV ASPNETCORE_URLS=http://+:8080
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 
-# Copiar solo el archivo de proyecto y restaurar dependencias
-COPY WebApplication4.csproj ./
-RUN dotnet restore "WebApplication4.csproj"
-
 # Copiar el resto del código fuente
 COPY . .
 
