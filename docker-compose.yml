@@ -1,12 +1,42 @@
-version: '3.8'
+version: '3.9'
 
 services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-lts
+    container_name: sqlserver
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=2022.Tgram2
+    ports:
+      - "1433:1433"
+    volumes:
+      - sql_data:/var/opt/mssql
+    networks:
+      - extruder_net
+
   puextruder:
     build:
       context: .
       dockerfile: Dockerfile
-    ports:
-      - "8080:80"
-    restart: always
+    container_name: puextruder
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=PRUEBA;User Id=Manu;Password=2022.Tgram2;TrustServerCertificate=True;
+    ports:
+      - "13000:8080"
+    depends_on:
+      - sqlserver
+    networks:
+      - extruder_net
+    volumes:
+      - logs:/app/logs
+
+volumes:
+  sql_data:
+  logs:
+
+networks:
+  extruder_net:
+    driver: bridge
+
+
+
