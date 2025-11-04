@@ -20,7 +20,7 @@ services:
       dockerfile: Dockerfile
     container_name: puextruder
     environment:
-      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=PRUEBA;User Id=Manu;Password=2022.Tgram2;TrustServerCertificate=True;
+      - ConnectionStrings__DefaultConnection=Server=10.195.10.166,1433;Database=PRUEBA;User Id=Manu;Password=2022.Tgram2;TrustServerCertificate=True;
     ports:
       - "13000:8080"
     depends_on:
