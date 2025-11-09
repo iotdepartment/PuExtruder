@@ -25,19 +25,25 @@
                     <h5>DATOS GENERALES</h5>
                     <div class="mb-2">
                     <label asp-for="NRO_EMPLEADO"></label>
-                    <select asp-for="NRO_EMPLEADO" asp-items="ViewBag.EmpleadoList" class="form-control">
+                    <select asp-for="NRO_EMPLEADO" asp-items="ViewBag.EmpleadoList" class="form-control" id="empleadoSelect">
                         <option value="">-- Selecciona Empleado --</option>
                     </select>
                     <span asp-validation-for="NRO_EMPLEADO" class="text-danger"></span>
                     </div>
                     <div class="mb-2">
                     <label asp-for="NOMBRE"></label>
-                    <input asp-for="NOMBRE" class="form-control" id="nombreEmpleado" readonly />
+                    <input asp-for="NOMBRE" class="form-control" id="nombreEmpleado"  readonly />
                     </div>
                     <div class="mb-2">
                         <label asp-for="TURNO"></label>
                         <input asp-for="TURNO" class="form-control" />
                     </div>
+                <div class="mb-2">
+                    <label asp-for="EXTRUDER"></label>
+                    <select asp-for="EXTRUDER" asp-items="ViewBag.ExtruderList" class="form-control">
+                        <option value="">-- Selecciona Extruder --</option>
+                    </select>
+                </div>
                     <div class="mb-2">
                         <label asp-for="FAMILIA"></label>
                         <input asp-for="FAMILIA" class="form-control" />
@@ -46,12 +52,7 @@
                         <label asp-for="MANDRIL"></label>
                         <input asp-for="MANDRIL" class="form-control" />
                     </div>
-                    <div class="mb-2">
-                    <label asp-for="EXTRUDER"></label>
-                    <select asp-for="EXTRUDER" asp-items="ViewBag.ExtruderList" class="form-control">
-                        <option value="">-- Selecciona Extruder --</option>
-                    </select>
-                    </div>
+                    
                 </div>
 
                 <!-- Columna 2: DATOS PRIMERA PIEZA -->
@@ -110,13 +111,13 @@
         document.getElementById("empleadoSelect").addEventListener("change", function () {
             var id = this.value;
             if (id) {
-                fetch(`/InspeccionController.cs/ObtenerNombreEmpleado?id=${id}`)
+                fetch(`/Inspeccion/ObtenerNombreEmpleado?id=${id}`)
                     .then(response => response.json())
                     .then(data => {
-                        document.getElementById("NOMBRE").value = data.nombre;
+                        document.getElementById("nombreEmpleado").value = data.nombre;
                     });
             } else {
-                document.getElementById("NOMBRE").value = "";
+                document.getElementById("nombreEmpleado").value = "";
             }
         });
     </script>
