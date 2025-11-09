@@ -9,7 +9,9 @@ namespace WebApplication4.Models
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-        public DbSet<PU> Inspecciones { get; set; }
+        public DbSet<PUMASTER> PUMASTER { get; set; }
+
+        public DbSet<USERS> USERS { get; set; }
     }
 }
 

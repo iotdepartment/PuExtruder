@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System;
 using WebApplication4.Models;
-using Microsoft.EntityFrameworkCore;
 
 public class InspeccionController : Controller
 {
@@ -14,30 +15,57 @@ public class InspeccionController : Controller
 
     public async Task<IActionResult> Index()
     {
-        var inspecciones = await _context.Inspecciones.ToListAsync();
-        return View(inspecciones);
+        var REGISTROS = await _context.PUMASTER.ToListAsync();
+        return View(REGISTROS); 
     }
 
     public IActionResult Crear()
     {
+        ViewBag.ExtruderList = new List<SelectListItem>
+    {
+        new SelectListItem { Value = "Extruder 1", Text = "Extruder 1" },
+        new SelectListItem { Value = "Extruder 2", Text = "Extruder 2" },
+        new SelectListItem { Value = "Extruder 3", Text = "Extruder 3" },
+        new SelectListItem { Value = "Extruder 4", Text = "Extruder 4" },
+        new SelectListItem { Value = "Extruder 5", Text = "Extruder 5" },
+        new SelectListItem { Value = "Extruder 6", Text = "Extruder 6" }
+    };
+
+        ViewBag.EmpleadoList = _context.USERS
+    .Select(e => new SelectListItem
+    {
+        Value = e.ID.ToString(),
+        Text = $"{e.ID} - {e.NOMBRE}"
+    })
+    .ToList();
         return View();
+
+
     }
 
+    [HttpGet]
+    public JsonResult ObtenerNombreEmpleado(int id)
+    {
+        var empleado = _context.USERS.FirstOrDefault(e => e.ID == id);
+        if (empleado != null)
+        {
+            return Json(new { nombre = empleado.NOMBRE });
+        }
+        return Json(new { nombre = "" });
+    }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Crear(PU model)
+    public async Task<IActionResult> Crear(PUMASTER model)
     {
         if (ModelState.IsValid)
         {
             try
             {
-                // ✅ Asignar valores automáticos
-                model.Fecha = DateTime.Today;               // Fecha actual sin hora
-                model.Hora = DateTime.Now.TimeOfDay;        // Hora actual
+                model.FECHA = DateTime.Today;
+                model.HORA = DateTime.Now.TimeOfDay;
 
-                // Guardar en la base de datos
-                _context.Inspecciones.Add(model);
+                _context.PUMASTER.Add(model);
                 await _context.SaveChangesAsync();
 
                 TempData["Mensaje"] = "✅ Registro guardado correctamente.";
@@ -54,7 +82,7 @@ public class InspeccionController : Controller
 
         TempData["Mensaje"] = "⚠️ Verifica los campos del formulario.";
         TempData["TipoMensaje"] = "warning";
-        return View(model); // ✅ Aquí sí se regresa la vista con el modelo para mostrar errores
+        return View(model);
     }
 
 }

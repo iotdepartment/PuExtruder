@@ -20,8 +20,8 @@ namespace WebApplication4.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var inspecciones = await _context.Inspecciones.ToListAsync();
-            return View(inspecciones);
+            var REGISTROS = await _context.PUMASTER.ToListAsync();
+            return View(REGISTROS);
         }
 
         public IActionResult Privacy()

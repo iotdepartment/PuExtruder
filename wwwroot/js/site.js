@@ -1,4 +1,18 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿@section Scripts {
+    <script>
+        document.getElementById("empleadoSelect").addEventListener("change", function () {
+            var id = this.value;
+        if (id) {
+            fetch(`/TuControlador/ObtenerNombreEmpleado?id=${id}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("nombreEmpleado").value = data.nombre;
+                });
+            } else {
+            document.getElementById("nombreEmpleado").value = "";
+            }
+        });
+    </script>
 
-// Write your JavaScript code.
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

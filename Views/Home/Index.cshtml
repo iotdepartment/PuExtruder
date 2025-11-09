@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PU>
+﻿@model IEnumerable<PUMASTER>
 
 @{
     ViewData["Title"] = "Registro de PU electronico";
@@ -36,23 +36,23 @@
             @foreach (var item in Model)
             {
                 <tr>
-                   
-                    <td>@item?.Nombre (@item?.NroEmpleado)</td>
-                    <td>@item?.Turno</td>
-                    <td>@item?.Fecha.ToShortDateString()</td>
-                    <td>@item?.Hora</td>
-                    <td>@item?.Extruder</td>
-                    <td>@item?.Proceso</td>
-                    <td>@item?.Id</td>
-                    <td>@item?.Longitud</td>
-                    <td>@item?.Pared12</td>
-                    <td>@item?.Pared3</td>
-                    <td>@item?.Pared6</td>
-                    <td>@item?.Pared9</td>
-                    <td>@item?.Pitch</td>
-                    <td>@item?.LongLeyenda</td>
-                    <td>@item?.GrosorLeyenda</td>
-                    <td>@item?.Logo</td>
+
+                    <td>@item?.NOMBRE (@item?.NRO_EMPLEADO)</td>
+                    <td>@item?.TURNO</td>
+                    <td>@item?.FECHA.ToShortDateString()</td>
+                    <td>@item?.HORA</td>
+                    <td>@item?.EXTRUDER</td>
+                    <td>@item?.FAMILIA</td>
+                    <td>@item?.ID_A</td>
+                    <td>@item?.LONGITUD_A</td>
+                    <td>@item?.PARED12_A</td>
+                    <td>@item?.PARED3_A</td>
+                    <td>@item?.PARED6_A</td>
+                    <td>@item?.PARED9_A</td>
+                    <td>@item?.PITCH_A</td>
+                    <td>@item?.LONGITUD_LEYENDA_A</td>
+                    <td>@item?.GROSOR_LEYENDA_A</td>
+                    <td>@item?.LOGO_A</td>
                 </tr>
             }
         </tbody>

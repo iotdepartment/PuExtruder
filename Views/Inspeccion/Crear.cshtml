@@ -1,4 +1,4 @@
-﻿@model PU
+﻿@model PUMASTER
 
 @{
     ViewData["Title"] = "Registro de Medidas PU Extruder";
@@ -19,65 +19,69 @@
 <form asp-action="Crear" method="post">
 
     <div class="container">
-        <form asp-action="Crear" method="post">
             <div class="row">
                 <!-- Columna 1: DATOS GENERALES -->
                 <div class="col-md-4">
                     <h5>DATOS GENERALES</h5>
                     <div class="mb-2">
-                        <label asp-for="NroEmpleado"></label>
-                        <input asp-for="NroEmpleado" class="form-control" />
+                    <label asp-for="NRO_EMPLEADO"></label>
+                    <select asp-for="NRO_EMPLEADO" asp-items="ViewBag.EmpleadoList" class="form-control">
+                        <option value="">-- Selecciona Empleado --</option>
+                    </select>
+                    <span asp-validation-for="NRO_EMPLEADO" class="text-danger"></span>
                     </div>
                     <div class="mb-2">
-                        <label asp-for="Nombre"></label>
-                        <input asp-for="Nombre" class="form-control" />
+                    <label asp-for="NOMBRE"></label>
+                    <input asp-for="NOMBRE" class="form-control" id="nombreEmpleado" readonly />
                     </div>
                     <div class="mb-2">
-                        <label asp-for="Turno"></label>
-                        <input asp-for="Turno" class="form-control" />
+                        <label asp-for="TURNO"></label>
+                        <input asp-for="TURNO" class="form-control" />
                     </div>
                     <div class="mb-2">
-                        <label asp-for="Proceso"></label>
-                        <input asp-for="Proceso" class="form-control" />
+                        <label asp-for="FAMILIA"></label>
+                        <input asp-for="FAMILIA" class="form-control" />
                     </div>
                     <div class="mb-2">
-                        <label asp-for="Mandril"></label>
-                        <input asp-for="Mandril" class="form-control" />
+                        <label asp-for="MANDRIL"></label>
+                        <input asp-for="MANDRIL" class="form-control" />
                     </div>
                     <div class="mb-2">
-                        <label asp-for="Extruder"></label>
-                        <input asp-for="Extruder" class="form-control" />
+                    <label asp-for="EXTRUDER"></label>
+                    <select asp-for="EXTRUDER" asp-items="ViewBag.ExtruderList" class="form-control">
+                        <option value="">-- Selecciona Extruder --</option>
+                    </select>
                     </div>
                 </div>
 
                 <!-- Columna 2: DATOS PRIMERA PIEZA -->
                 <div class="col-md-4">
                     <h5>DATOS PRIMERA PIEZA</h5>
-                    <div class="mb-2"><label asp-for="Id"></label><input asp-for="Id" class="form-control" /></div>
-                    <div class="mb-2"><label asp-for="Longitud"></label><input asp-for="Longitud" class="form-control" /></div>
-                    <div class="mb-2"><label asp-for="Pared12"></label><input asp-for="Pared12" class="form-control" /></div>
-                    <div class="mb-2"><label asp-for="Pared3"></label><input asp-for="Pared3" class="form-control" /></div>
-                    <div class="mb-2"><label asp-for="Pared6"></label><input asp-for="Pared6" class="form-control" /></div>
-                    <div class="mb-2"><label asp-for="Pared9"></label><input asp-for="Pared9" class="form-control" /></div>
-                    <div class="mb-2"><label asp-for="Pitch"></label><input asp-for="Pitch" class="form-control" /></div>
-                    <div class="mb-2"><label asp-for="LongLeyenda"></label><input asp-for="LongLeyenda" class="form-control" /></div>
-                    <div class="mb-2"><label asp-for="GrosorLeyenda"></label><input asp-for="GrosorLeyenda" class="form-control" /></div>
-                    <div class="mb-2"><label asp-for="Logo"></label><input asp-for="Logo" class="form-control" /></div>
+                    <div class="mb-2"><label asp-for="ID_A"></label><input asp-for="ID_A" class="form-control" /></div>
+                    <div class="mb-2"><label asp-for="LONGITUD_A"></label><input asp-for="LONGITUD_A" class="form-control" /></div>
+                    <div class="mb-2"><label asp-for="PARED12_A"></label><input asp-for="PARED12_A" class="form-control" /></div>
+                    <div class="mb-2"><label asp-for="PARED3_A"></label><input asp-for="PARED3_A" class="form-control" /></div>
+                    <div class="mb-2"><label asp-for="PARED6_A"></label><input asp-for="PARED6_A" class="form-control" /></div>
+                    <div class="mb-2"><label asp-for="PARED9_A"></label><input asp-for="PARED9_A" class="form-control" /></div>
+                    <div class="mb-2"><label asp-for="PITCH_A"></label><input asp-for="PITCH_A" class="form-control" /></div>
+                    <div class="mb-2"><label asp-for="LONGITUD_LEYENDA_A"></label><input asp-for="LONGITUD_LEYENDA_A" class="form-control" /></div>
+                    <div class="mb-2"><label asp-for="GROSOR_LEYENDA_A"></label><input asp-for="GROSOR_LEYENDA_A" class="form-control" /></div>
+                    <div class="mb-2"><label asp-for="LOGO_A"></label><input asp-for="LOGO_A" class="form-control" /></div>
                     <!-- Agrega más campos según tu modelo -->
                 </div>
                 <div class="col-md-4">
                 <!-- Columna 3: DATOS ÚLTIMA PIEZA -->
                     <h5>DATOS ULTIMA PIEZA</h5>
-                    <div class="mb-2"><label asp-for="Id"></label><input asp-for="Id" class="form-control" /></div>
-                    <div class="mb-2"><label asp-for="Longitud"></label><input asp-for="Longitud" class="form-control" /></div>
-                    <div class="mb-2"><label asp-for="Pared12"></label><input asp-for="Pared12" class="form-control" /></div>
-                    <div class="mb-2"><label asp-for="Pared3"></label><input asp-for="Pared3" class="form-control" /></div>
-                    <div class="mb-2"><label asp-for="Pared6"></label><input asp-for="Pared6" class="form-control" /></div>
-                    <div class="mb-2"><label asp-for="Pared9"></label><input asp-for="Pared9" class="form-control" /></div>
-                    <div class="mb-2"><label asp-for="Pitch"></label><input asp-for="Pitch" class="form-control" /></div>
-                    <div class="mb-2"><label asp-for="LongLeyenda"></label><input asp-for="LongLeyenda" class="form-control" /></div>
-                    <div class="mb-2"><label asp-for="GrosorLeyenda"></label><input asp-for="GrosorLeyenda" class="form-control" /></div>
-                    <div class="mb-2"><label asp-for="Logo"></label><input asp-for="Logo" class="form-control" /></div>
+                    <div class="mb-2"><label asp-for="ID_B"></label><input asp-for="ID_B" class="form-control" /></div>
+                    <div class="mb-2"><label asp-for="LONGITUD_B"></label><input asp-for="LONGITUD_B" class="form-control" /></div>
+                    <div class="mb-2"><label asp-for="PARED12_B"></label><input asp-for="PARED12_B" class="form-control" /></div>
+                    <div class="mb-2"><label asp-for="PARED3_B"></label><input asp-for="PARED3_B" class="form-control" /></div>
+                    <div class="mb-2"><label asp-for="PARED6_B"></label><input asp-for="PARED6_B" class="form-control" /></div>
+                    <div class="mb-2"><label asp-for="PARED9_B"></label><input asp-for="PARED9_B" class="form-control" /></div>
+                    <div class="mb-2"><label asp-for="PITCH_B"></label><input asp-for="PITCH_B" class="form-control" /></div>
+                    <div class="mb-2"><label asp-for="LONGITUD_LEYENDA_B"></label><input asp-for="LONGITUD_LEYENDA_B" class="form-control" /></div>
+                    <div class="mb-2"><label asp-for="GROSOR_LEYENDA_B"></label><input asp-for="GROSOR_LEYENDA_B" class="form-control" /></div>
+                    <div class="mb-2"><label asp-for="LOGO_B"></label><input asp-for="LOGO_B" class="form-control" /></div>
                     <!-- Agrega más campos según tu modelo -->
                 </div>
             </div>
@@ -85,8 +89,8 @@
             <!-- Comentarios y botones -->
             <div class="row mt-3">
                 <div class="col-md-12">
-                    <label asp-for="Pitch"></label>
-                    <textarea asp-for="Pitch" class="form-control" rows="3"></textarea>
+                    <label asp-for="COMENTARIOS"></label>
+                    <textarea asp-for="COMENTARIOS" class="form-control" rows="3"></textarea>
                 </div>
             </div> 
 
@@ -97,13 +101,26 @@
                         <a asp-action="Index" asp-controller="Home" class="btn btn-info">Mostrar Registros</a>
                 </div>
             </div>
-        </form>
     </div>
-
 </form>
 
 
 @section Scripts {
+    <script>
+        document.getElementById("empleadoSelect").addEventListener("change", function () {
+            var id = this.value;
+            if (id) {
+                fetch(`/InspeccionController.cs/ObtenerNombreEmpleado?id=${id}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById("NOMBRE").value = data.nombre;
+                    });
+            } else {
+                document.getElementById("NOMBRE").value = "";
+            }
+        });
+    </script>
+
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }

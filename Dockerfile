@@ -20,6 +20,6 @@ WORKDIR /app
 COPY --from=build /app/publish .
 
 # Cadena de conexión como variable de entorno
-ENV ConnectionStrings__DefaultConnection="Server=10.195.10.166,1433;Database=PRUEBA;User Id=Manu;Password=2022.Tgram2;TrustServerCertificate=True;"
+ENV ConnectionStrings__DefaultConnection="Server=10.195.10.166,1433;Database=Extruder;User Id=Manu;Password=2022.Tgram2;TrustServerCertificate=True;"
 
 ENTRYPOINT ["dotnet", "WebApplication4.dll"]
