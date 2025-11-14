@@ -4,7 +4,7 @@
     ViewData["Title"] = "Registro de Medidas PU Extruder";
 }
 
-<h2>Registro de Medidas PU Extruder</h2>
+<h2 class="titulo-con-linea">Registro de Medidas PU Extruder</h2>
 
 @if (TempData["Mensaje"] != null)
 {
@@ -16,13 +16,14 @@
 }
 
 
-<form asp-action="Crear" method="post">
+<form asp-action="Crear" method="post" class="form-animado">
 
-    <div class="container">
-            <div class="row">
+    <div class="card shadow-lg p-4 mb-5 bg-white rounded">
+
+            <div class="row" >
                 <!-- Columna 1: DATOS GENERALES -->
                 <div class="col-md-4">
-                    <h5>DATOS GENERALES</h5>
+                <h5 class="text-primary border-bottom pb-2 mb-3">DATOS GENERALES</h5>
                     <div class="mb-2">
                     <label asp-for="NRO_EMPLEADO"></label>
                     <select asp-for="NRO_EMPLEADO" asp-items="ViewBag.EmpleadoList" class="form-control" id="empleadoSelect">
@@ -34,10 +35,12 @@
                     <label asp-for="NOMBRE"></label>
                     <input asp-for="NOMBRE" class="form-control" id="nombreEmpleado"  readonly />
                     </div>
-                    <div class="mb-2">
-                        <label asp-for="TURNO"></label>
-                        <input asp-for="TURNO" class="form-control" />
-                    </div>
+                <div class="mb-2">
+                    <label asp-for="TURNO"></label>
+                    <select asp-for="TURNO" asp-items="ViewBag.ShiftList" class="form-control">
+                        <option value="">-- Selecciona Turno --</option>
+                    </select>
+                </div>
                 <div class="mb-2">
                     <label asp-for="EXTRUDER"></label>
                     <select asp-for="EXTRUDER" asp-items="ViewBag.ExtruderList" class="form-control">
@@ -56,8 +59,8 @@
                 </div>
 
                 <!-- Columna 2: DATOS PRIMERA PIEZA -->
-                <div class="col-md-4">
-                    <h5>DATOS PRIMERA PIEZA</h5>
+            <div class="col-md-4">
+                <h5 class="text-primary border-bottom pb-2 mb-3">DATOS GENERALES</h5>
                     <div class="mb-2"><label asp-for="ID_A"></label><input asp-for="ID_A" class="form-control" /></div>
                     <div class="mb-2"><label asp-for="LONGITUD_A"></label><input asp-for="LONGITUD_A" class="form-control" /></div>
                     <div class="mb-2"><label asp-for="PARED12_A"></label><input asp-for="PARED12_A" class="form-control" /></div>
@@ -67,12 +70,15 @@
                     <div class="mb-2"><label asp-for="PITCH_A"></label><input asp-for="PITCH_A" class="form-control" /></div>
                     <div class="mb-2"><label asp-for="LONGITUD_LEYENDA_A"></label><input asp-for="LONGITUD_LEYENDA_A" class="form-control" /></div>
                     <div class="mb-2"><label asp-for="GROSOR_LEYENDA_A"></label><input asp-for="GROSOR_LEYENDA_A" class="form-control" /></div>
-                    <div class="mb-2"><label asp-for="LOGO_A"></label><input asp-for="LOGO_A" class="form-control" /></div>
-                    <!-- Agrega más campos según tu modelo -->
+                <div class="mb-2">
+                    <label asp-for="LOGO_A"></label><select asp-for="LOGO_A" asp-items="ViewBag.LogoList" class="form-control">
+                        <option value="">-- ¿Logo Correcto? --</option>
+                    </select>
+                </div>
                 </div>
                 <div class="col-md-4">
                 <!-- Columna 3: DATOS ÚLTIMA PIEZA -->
-                    <h5>DATOS ULTIMA PIEZA</h5>
+                <h5 class="text-primary border-bottom pb-2 mb-3">DATOS GENERALES</h5>
                     <div class="mb-2"><label asp-for="ID_B"></label><input asp-for="ID_B" class="form-control" /></div>
                     <div class="mb-2"><label asp-for="LONGITUD_B"></label><input asp-for="LONGITUD_B" class="form-control" /></div>
                     <div class="mb-2"><label asp-for="PARED12_B"></label><input asp-for="PARED12_B" class="form-control" /></div>
@@ -82,8 +88,11 @@
                     <div class="mb-2"><label asp-for="PITCH_B"></label><input asp-for="PITCH_B" class="form-control" /></div>
                     <div class="mb-2"><label asp-for="LONGITUD_LEYENDA_B"></label><input asp-for="LONGITUD_LEYENDA_B" class="form-control" /></div>
                     <div class="mb-2"><label asp-for="GROSOR_LEYENDA_B"></label><input asp-for="GROSOR_LEYENDA_B" class="form-control" /></div>
-                    <div class="mb-2"><label asp-for="LOGO_B"></label><input asp-for="LOGO_B" class="form-control" /></div>
-                    <!-- Agrega más campos según tu modelo -->
+                <div class="mb-2">
+                    <label asp-for="LOGO_B"></label><select asp-for="LOGO_B" asp-items="ViewBag.LogoList" class="form-control">
+                        <option value="">-- ¿Logo Correcto? --</option>
+                    </select>
+                </div>
                 </div>
             </div>
 
@@ -97,15 +106,15 @@
 
             <div class="row mt-3">
                 <div class="col-md-12 text-end">
-                    <button type="submit" class="btn btn-success">Guardar Registro</button>
-                    <button type="reset" class="btn btn-secondary">Limpiar</button>
-                        <a asp-action="Index" asp-controller="Home" class="btn btn-info">Mostrar Registros</a>
+                <button type="submit" class="btn btn-success px-4 me-2 shadow-sm">Guardar</button>
+                <button type="reset" class="btn btn-secondary px-4 me-2">Limpiar</button>
+                <a asp-action="Index" asp-controller="Home" class="btn btn-info px-4">Mostrar Registros</a>
                 </div>
             </div>
     </div>
 </form>
 
-
+<!-- Script para copiar el nombre del empleado cuando se selecciona el numero del mismo -->
 @section Scripts {
     <script>
         document.getElementById("empleadoSelect").addEventListener("change", function () {

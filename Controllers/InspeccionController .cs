@@ -10,7 +10,7 @@ public class InspeccionController : Controller
 
     public InspeccionController(AppDbContext context)
     {
-        _context = context;
+        _context = context; 
     }
 
     public async Task<IActionResult> Index()
@@ -30,6 +30,20 @@ public class InspeccionController : Controller
         new SelectListItem { Value = "Extruder 5", Text = "Extruder 5" },
         new SelectListItem { Value = "Extruder 6", Text = "Extruder 6" }
     };
+
+        ViewBag.ShiftList = new List<SelectListItem>
+    {
+        new SelectListItem { Value = "1", Text = "1" },
+        new SelectListItem { Value = "2", Text = "2" },
+        new SelectListItem { Value = "3", Text = "3" },
+    };
+
+        ViewBag.LogoList = new List<SelectListItem>
+    {
+        new SelectListItem { Value = "SI", Text = "SI" },
+        new SelectListItem { Value = "NO", Text = "NO" },
+    };
+
 
         ViewBag.EmpleadoList = _context.USERS
     .Select(e => new SelectListItem

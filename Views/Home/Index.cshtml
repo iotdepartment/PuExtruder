@@ -4,14 +4,14 @@
     ViewData["Title"] = "Registro de PU electronico";
 }
 
-<h2>PUs registrados</h2>
+<h2 class="titulo-con-linea">Registros</h2>
 
 <a asp-action="Crear" asp-controller="Inspeccion">➕ Nueva inspección</a>
 
 @if (Model != null && Model.Any())
 {
 
-    <table class="table table-bordered">
+    <table class="table table-bordered form-animado">
         <thead>
             <tr>
                 <th>Empleado</th>
