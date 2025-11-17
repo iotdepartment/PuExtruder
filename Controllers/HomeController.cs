@@ -51,16 +51,13 @@ namespace WebApplication4.Controllers
             if (r0 != null)
             {
                 hoja.Cells["A3"].Value = r0.MANDRIL;
-                hoja.Cells["B3"].Value = r0.NOMBRE;
-                hoja.Cells["B4"].Value = r0.EXTRUDER;
-                hoja.Cells["B5"].Value = r0.FECHA.ToString("dd/MM/yyyy");
             }
 
             // Datos por registro
             int fila = 7;
             foreach (var r in registros)
             {
-                hoja.Cells[$"A{fila}"].Value = r.FECHA;
+                hoja.Cells[$"A{fila}"].Value = r.FECHA.ToString("dd/MM/yyyy");
                 hoja.Cells[$"B{fila}"].Value = r.EXTRUDER;
                 hoja.Cells[$"C{fila}"].Value = r.LONGITUD_A;
                 hoja.Cells[$"D{fila}"].Value = r.LOGO_A;
