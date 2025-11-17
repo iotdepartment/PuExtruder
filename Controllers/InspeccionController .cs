@@ -43,6 +43,15 @@ public class InspeccionController : Controller
         new SelectListItem { Value = "SI", Text = "SI" },
         new SelectListItem { Value = "NO", Text = "NO" },
     };
+        ViewBag.FamiliaList = new List<SelectListItem>
+    {
+        new SelectListItem { Value = "16X24", Text = "16X24" },
+    };
+
+        ViewBag.MandrilList = new List<SelectListItem>
+    {
+        new SelectListItem { Value = "V5-MX", Text = "V5-MX" },
+    };
 
 
         ViewBag.EmpleadoList = _context.USERS

@@ -50,11 +50,15 @@
                 </div>
                     <div class="mb-2">
                         <label asp-for="FAMILIA"></label>
-                        <input asp-for="FAMILIA" class="form-control" />
+                    <select asp-for="FAMILIA" asp-items="ViewBag.FamiliaList" class="form-control">
+                    <option value="">-- Selecciona Familia --</option>
+                    </select>
                     </div>
                     <div class="mb-2">
                         <label asp-for="MANDRIL"></label>
-                        <input asp-for="MANDRIL" class="form-control" />
+                    <Select asp-for="MANDRIL" asp-items="ViewBag.MandrilList" class="form-control">
+                    <option value="">-- Selecciona Mandril --</option>
+                    </select>
                     </div>
                     
                 </div>
