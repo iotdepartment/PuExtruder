@@ -1,0 +1,54 @@
+﻿@model PUMASTER
+@{
+    ViewData["Title"] = "Imprimir";
+}
+
+<div class="card  mb-4 mt-3 p-4 border rounded shadow-sm bg-light">
+    <h2 class="titulo-con-linea">Imprimir PU</h2>
+
+    <form asp-action="GenerarReporte" method="post">
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="fechaInicial" class="form-label">FECHA INICIAL:</label>
+                <input type="date" id="fechaInicial" name="fechaInicial" class="form-control" required />
+            </div>
+            <div class="col-md-6">
+                <label for="fechaFinal" class="form-label">FECHA FINAL:</label>
+                <input type="date" id="fechaFinal" name="fechaFinal" class="form-control" required />
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="Extruder" class="form-label">EXTRUDER:</label>
+                <select id="Extruder" name="EXTRUDER" class="form-select">
+                    <option value="">-- Selecciona un extruder --</option>
+                    @* Aquí puedes iterar tus opciones dinámicas *@
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label for="familia" class="form-label">FAMILIA:</label>
+                <select id="familia" name="familia" class="form-select">
+                    <option value="">-- Selecciona una familia --</option>
+                    @* Aquí puedes iterar tus opciones dinámicas *@
+                </select>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="mandril" class="form-label">MANDRIL:</label>
+                <select id="mandril" name="mandril" class="form-select">
+                    <option value="">-- Selecciona un mandril --</option>
+                    @* Aquí puedes iterar tus opciones dinámicas *@
+                </select>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center gap-3 mt-4">
+            <button type="submit" class="btn btn-success px-4">IMPRIMIR REPORTE</button>
+            <a asp-action="Index" class="btn btn-secondary px-4">CERRAR</a>
+        </div>
+    </form>
+</div>
+
+
