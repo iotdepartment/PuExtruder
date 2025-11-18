@@ -38,6 +38,10 @@ public class PUMASTER
     [Required]
     public string PITCH_A { get; set; }
     [Required]
+    public string PARED_INTERNA_A { get; set; }
+    [Required]
+    public string PARED_EXTERNA_A { get; set; }
+    [Required]
     public string LONGITUD_LEYENDA_A { get; set; }
     [Required]
     public string GROSOR_LEYENDA_A { get; set; }
@@ -57,6 +61,10 @@ public class PUMASTER
     public string PARED9_B { get; set; }
     [Required]
     public string PITCH_B { get; set; }
+    [Required]
+    public string PARED_INTERNA_B { get; set; }
+    [Required]
+    public string PARED_EXTERNA_B { get; set; }
     [Required]
     public string LONGITUD_LEYENDA_B { get; set; }
     [Required]

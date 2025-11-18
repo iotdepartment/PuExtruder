@@ -18,7 +18,7 @@
 
 <form asp-action="Crear" method="post" class="form-animado">
 
-    <div class="card shadow-lg p-4 mb-5 bg-white rounded">
+    <div class="container  mt-3 shadow-lg p-4 mb-5 bg-white rounded">
         <h2 class="titulo-con-linea">Registro de Medidas PU Extruder</h2>
 
             <div class="row" >
@@ -65,7 +65,7 @@
 
                 <!-- Columna 2: DATOS PRIMERA PIEZA -->
             <div class="col-md-4">
-                <h5 class="text-primary border-bottom pb-2 mb-3">DATOS GENERALES</h5>
+                <h5 class="text-primary border-bottom pb-2 mb-3">PRIMERA PIEZA</h5>
                     <div class="mb-2"><label asp-for="ID_A"></label><input asp-for="ID_A" class="form-control" /></div>
                     <div class="mb-2"><label asp-for="LONGITUD_A"></label><input asp-for="LONGITUD_A" class="form-control" /></div>
                     <div class="mb-2"><label asp-for="PARED12_A"></label><input asp-for="PARED12_A" class="form-control" /></div>
@@ -73,6 +73,8 @@
                     <div class="mb-2"><label asp-for="PARED6_A"></label><input asp-for="PARED6_A" class="form-control" /></div>
                     <div class="mb-2"><label asp-for="PARED9_A"></label><input asp-for="PARED9_A" class="form-control" /></div>
                     <div class="mb-2"><label asp-for="PITCH_A"></label><input asp-for="PITCH_A" class="form-control" /></div>
+                    <div class="mb-2"><label asp-for="PARED_INTERNA_A"></label><input asp-for="PARED_INTERNA_A" class="form-control" /></div>
+                    <div class="mb-2"><label asp-for="PARED_EXTERNA_A"></label><input asp-for="PARED_EXTERNA_A" class="form-control" /></div>
                     <div class="mb-2"><label asp-for="LONGITUD_LEYENDA_A"></label><input asp-for="LONGITUD_LEYENDA_A" class="form-control" /></div>
                     <div class="mb-2"><label asp-for="GROSOR_LEYENDA_A"></label><input asp-for="GROSOR_LEYENDA_A" class="form-control" /></div>
                 <div class="mb-2">
@@ -83,7 +85,7 @@
                 </div>
                 <div class="col-md-4">
                 <!-- Columna 3: DATOS ÚLTIMA PIEZA -->
-                <h5 class="text-primary border-bottom pb-2 mb-3">DATOS GENERALES</h5>
+                <h5 class="text-primary border-bottom pb-2 mb-3">ULTIMA PIEZA</h5>
                     <div class="mb-2"><label asp-for="ID_B"></label><input asp-for="ID_B" class="form-control" /></div>
                     <div class="mb-2"><label asp-for="LONGITUD_B"></label><input asp-for="LONGITUD_B" class="form-control" /></div>
                     <div class="mb-2"><label asp-for="PARED12_B"></label><input asp-for="PARED12_B" class="form-control" /></div>
@@ -91,6 +93,8 @@
                     <div class="mb-2"><label asp-for="PARED6_B"></label><input asp-for="PARED6_B" class="form-control" /></div>
                     <div class="mb-2"><label asp-for="PARED9_B"></label><input asp-for="PARED9_B" class="form-control" /></div>
                     <div class="mb-2"><label asp-for="PITCH_B"></label><input asp-for="PITCH_B" class="form-control" /></div>
+                    <div class="mb-2"><label asp-for="PARED_INTERNA_B"></label><input asp-for="PARED_INTERNA_B" class="form-control" /></div>
+                    <div class="mb-2"><label asp-for="PARED_EXTERNA_B"></label><input asp-for="PARED_EXTERNA_B" class="form-control" /></div>
                     <div class="mb-2"><label asp-for="LONGITUD_LEYENDA_B"></label><input asp-for="LONGITUD_LEYENDA_B" class="form-control" /></div>
                     <div class="mb-2"><label asp-for="GROSOR_LEYENDA_B"></label><input asp-for="GROSOR_LEYENDA_B" class="form-control" /></div>
                 <div class="mb-2">

@@ -3,30 +3,30 @@
     ViewData["Title"] = "Imprimir";
 }
 
-<div class="card  mb-4 mt-3 p-4 border rounded shadow-sm bg-light">
+<div class="container  mb-4 mt-3 p-4 border rounded shadow-sm bg-white">
     <h2 class="titulo-con-linea">Imprimir PU</h2>
 
-    <form asp-controller="Home" asp-action="GenerarExcel" method="post">
+    <form asp-controller="Home" class="form-animado" asp-action="GenerarExcel" method="post">
         <div class="row mb-3">
-            <div class="col-md-6">
+            <div class="col-md-3">
                 <label for="fechaInicial" class="form-label">FECHA INICIAL:</label>
                 <input type="date" id="fechaInicial" name="fechaInicial" class="form-control" required />
             </div>
-            <div class="col-md-6">
+            <div class="col-md-3">
                 <label for="fechaFinal" class="form-label">FECHA FINAL:</label>
                 <input type="date" id="fechaFinal" name="fechaFinal" class="form-control" required />
             </div>
         </div>
 
         <div class="row mb-3">
-            <div class="col-md-6">
+            <div class="col-md-3">
                 <label for="Extruder" class="form-label">EXTRUDER:</label>
                 <select id="Extruder" name="EXTRUDER" asp-items="ViewBag.ExtruderList" class="form-select">
                     <option value="">-- Selecciona un extruder --</option>
                     @* Aquí puedes iterar tus opciones dinámicas *@
                 </select>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-3">
                 <label for="familia" class="form-label">FAMILIA:</label>
                 <select id="familia" name="familia" asp-items="ViewBag.FamiliaList" class="form-select">
                     <option value="">-- Selecciona una familia --</option>
@@ -34,8 +34,8 @@
                 </select>
             </div>
         </div>
-        <div class="row mb-3">
-            <div class="col-md-6">
+        <div class="row mb-5">
+            <div class="col-md-3">
                 <label for="mandril" class="form-label">MANDRIL:</label>
                 <select id="mandril" name="mandril" asp-items="ViewBag.MandrilList" class="form-select">
                     <option value="">-- Selecciona un mandril --</option>

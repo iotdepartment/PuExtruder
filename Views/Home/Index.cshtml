@@ -4,32 +4,48 @@
     ViewData["Title"] = "Registro de PU electronico";
 }
 
-<div class="card  mb-4 mt-3 p-4 border rounded shadow-sm bg-light">
+<div class="container-fluid  mb-4 mt-3 p-4 border rounded shadow-sm bg-white">
 <h2 class="titulo-con-linea">Registros</h2>
 
-<a asp-action="Crear" asp-controller="Inspeccion">➕ Nueva inspección</a>
+    <a asp-action="Crear" class="form-animado" asp-controller="Inspeccion">➕ Nueva inspección</a>
 
 @if (Model != null && Model.Any())
 {
+        <div class="table-responsive">
 
-    <table class="table table-bordered form-animado">
+            <table class="table table-bordered table-striped        form-animado text-nowrap">
         <thead>
             <tr>
-                <th>Empleados</th>
+                <th>TM</th>
                 <th>Turno</th>
                 <th>Fecha</th>
                 <th>Hora</th>
                 <th>Extruder</th>
-                <th>Proceso</th>
+                <th>Familia</th>
+                <th>Mandril</th>
                 <th>Id</th>
                 <th>Longitud</th>
-                <th>Pared12</th>
-                <th>Pared3</th>
-                <th>Pared6</th>
-                <th>Pared9</th>
+                <th>Pared 12</th>
+                <th>Pared 3</th>
+                <th>Pared 6</th>
+                <th>Pared 9</th>
                 <th>Pitch</th>
-                <th>LongLeyenda</th>
-                <th>GrosorLeyenda</th>
+                <th>Pared Interna</th>
+                <th>Pared Externa</th>
+                <th>Long Leyenda</th>
+                <th>Grosor Leyenda</th>
+                <th>Logo</th>
+                <th>Id</th>
+                <th>Longitud</th>
+                <th>Pared 12</th>
+                <th>Pared 3</th>
+                <th>Pared 6</th>
+                <th>Pared 9</th>
+                <th>Pitch</th>
+                <th>Pared Interna</th>
+                <th>Pared Externa</th>
+                <th>Long Leyenda</th>
+                <th>Grosor Leyenda</th>
                 <th>Logo</th>
             </tr>
         </thead>
@@ -44,6 +60,7 @@
                     <td>@item?.HORA</td>
                     <td>@item?.EXTRUDER</td>
                     <td>@item?.FAMILIA</td>
+                    <td>@item?.MANDRIL</td>
                     <td>@item?.ID_A</td>
                     <td>@item?.LONGITUD_A</td>
                     <td>@item?.PARED12_A</td>
@@ -51,13 +68,29 @@
                     <td>@item?.PARED6_A</td>
                     <td>@item?.PARED9_A</td>
                     <td>@item?.PITCH_A</td>
+                    <td>@item?.PARED_INTERNA_A</td>
+                    <td>@item?.PARED_EXTERNA_A</td>
                     <td>@item?.LONGITUD_LEYENDA_A</td>
                     <td>@item?.GROSOR_LEYENDA_A</td>
                     <td>@item?.LOGO_A</td>
+                    <td>@item?.ID_B</td>
+                    <td>@item?.LONGITUD_B</td>
+                    <td>@item?.PARED12_B</td>
+                    <td>@item?.PARED3_B</td>
+                    <td>@item?.PARED6_B</td>
+                    <td>@item?.PARED9_B</td>
+                    <td>@item?.PITCH_B</td>
+                    <td>@item?.PARED_INTERNA_B</td>
+                    <td>@item?.PARED_EXTERNA_B</td>
+                    <td>@item?.LONGITUD_LEYENDA_B</td>
+                    <td>@item?.GROSOR_LEYENDA_B</td>
+                    <td>@item?.LOGO_B</td>
                 </tr>
             }
         </tbody>
     </table>
+        </div>
+
 }
 else
 {
