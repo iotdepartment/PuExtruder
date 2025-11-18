@@ -17,109 +17,223 @@
 
 
 <form asp-action="Crear" method="post" class="form-animado">
+    <div class="container mt-3 shadow-lg p-4 mb-5 bg-white rounded">
+        <h2 class="titulo-con-linea">REGISTRO DE MEDIDAS PU EXTRUDER</h2>
 
-    <div class="container  mt-3 shadow-lg p-4 mb-5 bg-white rounded">
-        <h2 class="titulo-con-linea">Registro de Medidas PU Extruder</h2>
-
-            <div class="row" >
-                <!-- Columna 1: DATOS GENERALES -->
-                <div class="col-md-4">
-                <h5 class="text-primary border-bottom pb-2 mb-3">DATOS GENERALES</h5>
-                    <div class="mb-2">
-                    <label asp-for="NRO_EMPLEADO"></label>
-                    <select asp-for="NRO_EMPLEADO" asp-items="ViewBag.EmpleadoList" class="form-control" id="empleadoSelect">
-                        <option value="">-- Selecciona Empleado --</option>
-                    </select>
-                    <span asp-validation-for="NRO_EMPLEADO" class="text-danger"></span>
-                    </div>
-                    <div class="mb-2">
-                    <label asp-for="NOMBRE"></label>
-                    <input asp-for="NOMBRE" class="form-control" id="nombreEmpleado"  readonly />
-                    </div>
-                <div class="mb-2">
-                    <label asp-for="TURNO"></label>
-                    <select asp-for="TURNO" asp-items="ViewBag.ShiftList" class="form-control">
-                        <option value="">-- Selecciona Turno --</option>
-                    </select>
-                </div>
-                <div class="mb-2">
-                    <label asp-for="EXTRUDER"></label>
-                    <select asp-for="EXTRUDER" asp-items="ViewBag.ExtruderList" class="form-control">
-                        <option value="">-- Selecciona Extruder --</option>
-                    </select>
-                </div>
-                    <div class="mb-2">
-                        <label asp-for="FAMILIA"></label>
-                    <select asp-for="FAMILIA" asp-items="ViewBag.FamiliaList" class="form-control">
-                    <option value="">-- Selecciona Familia --</option>
-                    </select>
-                    </div>
-                    <div class="mb-2">
-                        <label asp-for="MANDRIL"></label>
-                    <Select asp-for="MANDRIL" asp-items="ViewBag.MandrilList" class="form-control">
-                    <option value="">-- Selecciona Mandril --</option>
-                    </select>
-                    </div>
-                    
-                </div>
-
-                <!-- Columna 2: DATOS PRIMERA PIEZA -->
+        <div class="row">
+            <!-- Columna 1: DATOS GENERALES -->
             <div class="col-md-4">
-                <h5 class="text-primary border-bottom pb-2 mb-3">PRIMERA PIEZA</h5>
-                    <div class="mb-2"><label asp-for="ID_A"></label><input asp-for="ID_A" class="form-control" /></div>
-                    <div class="mb-2"><label asp-for="LONGITUD_A"></label><input asp-for="LONGITUD_A" class="form-control" /></div>
-                    <div class="mb-2"><label asp-for="PARED12_A"></label><input asp-for="PARED12_A" class="form-control" /></div>
-                    <div class="mb-2"><label asp-for="PARED3_A"></label><input asp-for="PARED3_A" class="form-control" /></div>
-                    <div class="mb-2"><label asp-for="PARED6_A"></label><input asp-for="PARED6_A" class="form-control" /></div>
-                    <div class="mb-2"><label asp-for="PARED9_A"></label><input asp-for="PARED9_A" class="form-control" /></div>
-                    <div class="mb-2"><label asp-for="PITCH_A"></label><input asp-for="PITCH_A" class="form-control" /></div>
-                    <div class="mb-2"><label asp-for="PARED_INTERNA_A"></label><input asp-for="PARED_INTERNA_A" class="form-control" /></div>
-                    <div class="mb-2"><label asp-for="PARED_EXTERNA_A"></label><input asp-for="PARED_EXTERNA_A" class="form-control" /></div>
-                    <div class="mb-2"><label asp-for="LONGITUD_LEYENDA_A"></label><input asp-for="LONGITUD_LEYENDA_A" class="form-control" /></div>
-                    <div class="mb-2"><label asp-for="GROSOR_LEYENDA_A"></label><input asp-for="GROSOR_LEYENDA_A" class="form-control" /></div>
-                <div class="mb-2">
-                    <label asp-for="LOGO_A"></label><select asp-for="LOGO_A" asp-items="ViewBag.LogoList" class="form-control">
-                        <option value="">-- ¿Logo Correcto? --</option>
-                    </select>
+                <h5 class="text-primary border-bottom pb-2 mb-3">DATOS GENERALES</h5>
+
+                <div class="row mb-2 align-items-center">
+                    <div class="col-4"><label for="NRO_EMPLEADO" class="form-label">NRO. EMPLEADO:</label></div>
+                    <div class="col-8">
+                        <select asp-for="NRO_EMPLEADO" asp-items="ViewBag.EmpleadoList" class="form-control" id="empleadoSelect">
+                            <option value="">-- Selecciona Empleado --</option>
+                        </select>
+                        <span asp-validation-for="NRO_EMPLEADO" class="text-danger"></span>
+                    </div>
                 </div>
+
+                <div class="row mb-2 align-items-center">
+                    <div class="col-4"><label for="NOMBRE" class="form-label"></label>EMPLEADO:</div>
+                    <div class="col-8"><input asp-for="NOMBRE" class="form-control" id="nombreEmpleado" readonly /></div>
                 </div>
-                <div class="col-md-4">
-                <!-- Columna 3: DATOS ÚLTIMA PIEZA -->
-                <h5 class="text-primary border-bottom pb-2 mb-3">ULTIMA PIEZA</h5>
-                    <div class="mb-2"><label asp-for="ID_B"></label><input asp-for="ID_B" class="form-control" /></div>
-                    <div class="mb-2"><label asp-for="LONGITUD_B"></label><input asp-for="LONGITUD_B" class="form-control" /></div>
-                    <div class="mb-2"><label asp-for="PARED12_B"></label><input asp-for="PARED12_B" class="form-control" /></div>
-                    <div class="mb-2"><label asp-for="PARED3_B"></label><input asp-for="PARED3_B" class="form-control" /></div>
-                    <div class="mb-2"><label asp-for="PARED6_B"></label><input asp-for="PARED6_B" class="form-control" /></div>
-                    <div class="mb-2"><label asp-for="PARED9_B"></label><input asp-for="PARED9_B" class="form-control" /></div>
-                    <div class="mb-2"><label asp-for="PITCH_B"></label><input asp-for="PITCH_B" class="form-control" /></div>
-                    <div class="mb-2"><label asp-for="PARED_INTERNA_B"></label><input asp-for="PARED_INTERNA_B" class="form-control" /></div>
-                    <div class="mb-2"><label asp-for="PARED_EXTERNA_B"></label><input asp-for="PARED_EXTERNA_B" class="form-control" /></div>
-                    <div class="mb-2"><label asp-for="LONGITUD_LEYENDA_B"></label><input asp-for="LONGITUD_LEYENDA_B" class="form-control" /></div>
-                    <div class="mb-2"><label asp-for="GROSOR_LEYENDA_B"></label><input asp-for="GROSOR_LEYENDA_B" class="form-control" /></div>
-                <div class="mb-2">
-                    <label asp-for="LOGO_B"></label><select asp-for="LOGO_B" asp-items="ViewBag.LogoList" class="form-control">
-                        <option value="">-- ¿Logo Correcto? --</option>
-                    </select>
+
+                <div class="row mb-2 align-items-center">
+                    <div class="col-4"><label for="TURNO" class="form-label">TURNO:</label></div>
+                    <div class="col-8">
+                        <select asp-for="TURNO" asp-items="ViewBag.ShiftList" class="form-control">
+                            <option value="">-- Selecciona Turno --</option>
+                        </select>
+                    </div>
                 </div>
+
+                <div class="row mb-2 align-items-center">
+                    <div class="col-4"><label for="EXTRUDER" class="form-label">EXTRUDER:</label></div>
+                    <div class="col-8">
+                        <select asp-for="EXTRUDER" asp-items="ViewBag.ExtruderList" class="form-control">
+                            <option value="">-- Selecciona Extruder --</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mb-2 align-items-center">
+                    <div class="col-4"><label for="FAMILIA" class="form-label">FAMILIA:</label></div>
+                    <div class="col-8">
+                        <select asp-for="FAMILIA" asp-items="ViewBag.FamiliaList" class="form-control">
+                            <option value="">-- Selecciona Familia --</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mb-2 align-items-center">
+                    <div class="col-4"><label for="MANDRIL" class="form-label">MANDRIL:</label></div>
+                    <div class="col-8">
+                        <select asp-for="MANDRIL" asp-items="ViewBag.MandrilList" class="form-control">
+                            <option value="">-- Selecciona Mandril --</option>
+                        </select>
+                    </div>
                 </div>
             </div>
 
-            <!-- Comentarios y botones -->
-            <div class="row mt-3">
-                <div class="col-md-12">
-                    <label asp-for="COMENTARIOS"></label>
-                    <textarea asp-for="COMENTARIOS" class="form-control" rows="3"></textarea>
-                </div>
-            </div> 
+            <!-- Columna 2: PRIMERA PIEZA -->
+            <div class="col-md-4">
+                <h5 class="text-primary border-bottom pb-2 mb-3">PRIMERA PIEZA</h5>
 
-            <div class="row mt-3">
-                <div class="col-md-12 text-end">
+                <div class="row mb-2 align-items-center">
+                    <div class="col-4"><label for="ID_A" class="form-label">ID:</label></div>
+                    <div class="col-8"><input asp-for="ID_A" class="form-control" /></div>
+                </div>
+
+                <div class="row mb-2 align-items-center">
+                    <div class="col-4"><label for="LONGITUD_A" class="form-label">LONGITUD:</label></div>
+                    <div class="col-8"><input asp-for="LONGITUD_A" class="form-control" /></div>
+                </div>
+
+                <div class="row mb-2 align-items-center">
+                    <div class="col-4"><label for="PARED12_A" class="form-label">PARED 12:</label></div>
+                    <div class="col-8"><input asp-for="PARED12_A" class="form-control" /></div>
+                </div>
+
+                <div class="row mb-2 align-items-center">
+                    <div class="col-4"><label for="PARED3_A" class="form-label">PARED 3:</label></div>
+                    <div class="col-8"><input asp-for="PARED3_A" class="form-control" /></div>
+                </div>
+
+                <div class="row mb-2 align-items-center">
+                    <div class="col-4"><label for="PARED6_A" class="form-label">PARED 6:</label></div>
+                    <div class="col-8"><input asp-for="PARED6_A" class="form-control" /></div>
+                </div>
+
+                <div class="row mb-2 align-items-center">
+                    <div class="col-4"><label for="PARED9_A" class="form-label">PARED 9:</label></div>
+                    <div class="col-8"><input asp-for="PARED9_A" class="form-control" /></div>
+                </div>
+
+                <div class="row mb-2 align-items-center">
+                    <div class="col-4"><label for="PITCH_A" class="form-label">PITCH:</label></div>
+                    <div class="col-8"><input asp-for="PITCH_A" class="form-control" /></div>
+                </div>
+
+                <div class="row mb-2 align-items-center">
+                    <div class="col-4"><label for="PARED_INTERNA_A" class="form-label">PARED INTERNA:</label></div>
+                    <div class="col-8"><input asp-for="PARED_INTERNA_A" class="form-control" /></div>
+                </div>
+
+                <div class="row mb-2 align-items-center">
+                    <div class="col-4"><label for="PARED_EXTERNA_A" class="form-label">PARED EXTERNA:</label></div>
+                    <div class="col-8"><input asp-for="PARED_EXTERNA_A" class="form-control" /></div>
+                </div>
+
+                <div class="row mb-2 align-items-center">
+                    <div class="col-4"><label for="LONGITUD_LEYENDA_A" class="form-label">LONG. LEYENDA:</label></div>
+                    <div class="col-8"><input asp-for="LONGITUD_LEYENDA_A" class="form-control" /></div>
+                </div>
+
+                <div class="row mb-2 align-items-center">
+                    <div class="col-4"><label for="GROSOR_LEYENDA_A" class="form-label">GROSOR LEYENDA:</label></div>
+                    <div class="col-8"><input asp-for="GROSOR_LEYENDA_A" class="form-control" /></div>
+                </div>
+
+                <div class="row mb-2 align-items-center">
+                    <div class="col-4"><label for="LOGO_A" class="form-label">LOGO:</label></div>
+                    <div class="col-8">
+                        <select asp-for="LOGO_A" asp-items="ViewBag.LogoList" class="form-control">
+                            <option value="">-- ¿Logo Correcto? --</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Columna 3: ULTIMA PIEZA -->
+            <div class="col-md-4">
+                <h5 class="text-primary border-bottom pb-2 mb-3">ULTIMA PIEZA</h5>
+
+                <div class="row mb-2 align-items-center">
+                    <div class="col-4"><label for="ID_B" class="form-label">ID:</label></div>
+                    <div class="col-8"><input asp-for="ID_B" class="form-control" /></div>
+                </div>
+
+                <div class="row mb-2 align-items-center">
+                    <div class="col-4"><label for="LONGITUD_B" class="form-label">LONGITUD:</label></div>
+                    <div class="col-8"><input asp-for="LONGITUD_B" class="form-control" /></div>
+                </div>
+
+                <div class="row mb-2 align-items-center">
+                    <div class="col-4"><label for="PARED12_B" class="form-label">PARED 12:</label></div>
+                    <div class="col-8"><input asp-for="PARED12_B" class="form-control" /></div>
+                </div>
+
+                <div class="row mb-2 align-items-center">
+                    <div class="col-4"><label for="PARED3_B" class="form-label">PARED 3</label></div>
+                    <div class="col-8"><input asp-for="PARED3_B" class="form-control" /></div>
+                </div>
+
+                <div class="row mb-2 align-items-center">
+                    <div class="col-4"><label for="PARED6_B" class="form-label">PARED 6:</label></div>
+                    <div class="col-8"><input asp-for="PARED6_B" class="form-control" /></div>
+                </div>
+
+                <div class="row mb-2 align-items-center">
+                    <div class="col-4"><label for="PARED9_B" class="form-label">PARED 9:</label></div>
+                    <div class="col-8"><input asp-for="PARED9_B" class="form-control" /></div>
+                </div>
+
+                <div class="row mb-2 align-items-center">
+                    <div class="col-4"><label for="PITCH_B" class="form-label">PITCH:</label></div>
+                    <div class="col-8"><input asp-for="PITCH_B" class="form-control" /></div>
+                </div>
+
+                <div class="row mb-2 align-items-center">
+                    <div class="col-4"><label for="PARED_INTERNA_B" class="form-label">PARED INTERNA:</label></div>
+                    <div class="col-8"><input asp-for="PARED_INTERNA_B" class="form-control" /></div>
+                </div>
+
+                <div class="row mb-2 align-items-center">
+                    <div class="col-4"><label for="PARED_EXTERNA_B" class="form-label">PARED EXTERNA:</label></div>
+                    <div class="col-8"><input asp-for="PARED_EXTERNA_B" class="form-control" /></div>
+                </div>
+
+                <div class="row mb-2 align-items-center">
+                    <div class="col-4"><label for="LONGITUD_LEYENDA_B" class="form-label">LONG. LEYENDA</label></div>
+                    <div class="col-8"><input asp-for="LONGITUD_LEYENDA_B" class="form-control" /></div>
+                </div>
+
+                <div class="row mb-2 align-items-center">
+                    <div class="col-4"><label for="GROSOR_LEYENDA_B" class="form-label">GROSOR LEYENDA</label></div>
+                    <div class="col-8"><input asp-for="GROSOR_LEYENDA_B" class="form-control" /></div>
+                </div>
+
+                <div class="row mb-2 align-items-center">
+                    <div class="col-4"><label for="LOGO_B" class="form-label">LOGO:</label></div>
+                    <div class="col-8">
+                        <select asp-for="LOGO_B" asp-items="ViewBag.LogoList" class="form-control">
+                            <option value="">-- ¿Logo Correcto? --</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comentarios -->
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <div class="row align-items-center">
+                    <div class="col-2"><label for="COMENTARIOS" class="form-label">COMENTARIOS:</label></div>
+                    <div class="col-10"><textarea asp-for="COMENTARIOS" class="form-control" rows="3"></textarea></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Botones -->
+        <div class="row mt-3">
+            <div class="col-md-12 text-end">
                 <button type="submit" class="btn btn-success px-4 me-2 shadow-sm">Guardar</button>
                 <button type="reset" class="btn btn-secondary px-4 me-2">Limpiar</button>
                 <a asp-action="Index" asp-controller="Home" class="btn btn-info px-4">Mostrar Registros</a>
-                </div>
             </div>
+        </div>
     </div>
 </form>
 
