@@ -1,21 +1,20 @@
+using MailKit.Security;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using MimeKit;
 using OfficeOpenXml;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using WebApplication4.Models;
 
-
 namespace WebApplication4.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
         private readonly AppDbContext _context;
-
         private readonly IWebHostEnvironment _env;
 
         public HomeController(ILogger<HomeController> logger, AppDbContext context, IWebHostEnvironment env)
@@ -25,14 +24,14 @@ namespace WebApplication4.Controllers
             _env = env;
         }
 
-
         public async Task<IActionResult> Index()
         {
             var REGISTROS = await _context.PUMASTER.ToListAsync();
             return View(REGISTROS);
         }
 
-        public IActionResult GenerarExcel(DateTime fechaInicial, DateTime fechaFinal, string familia, string mandril)
+        // Método que genera Excel y devuelve bytes (para reutilizar)
+        private byte[] GenerarExcelInterno(DateTime fechaInicial, DateTime fechaFinal, string extruder, string familia, string mandril)
         {
             var registros = _context.PUMASTER
                 .Where(r => r.FECHA >= fechaInicial && r.FECHA <= fechaFinal)
@@ -46,14 +45,12 @@ namespace WebApplication4.Controllers
             using var package = new ExcelPackage(new FileInfo(rutaPlantilla));
             var hoja = package.Workbook.Worksheets[0];
 
-            // Datos generales
             var r0 = registros.FirstOrDefault();
             if (r0 != null)
             {
                 hoja.Cells["A3"].Value = r0.MANDRIL;
             }
 
-            // Datos por registro
             int fila = 7;
             foreach (var r in registros)
             {
@@ -86,30 +83,69 @@ namespace WebApplication4.Controllers
             }
 
             package.SaveAs(new FileInfo(rutaTemporal));
-            var excelBytes = System.IO.File.ReadAllBytes(rutaTemporal);
+            return System.IO.File.ReadAllBytes(rutaTemporal);
+        }
+
+        // Acción que descarga Excel
+        public IActionResult GenerarExcel(DateTime fechaInicial, DateTime fechaFinal, string familia, string mandril)
+        {
+            var excelBytes = GenerarExcelInterno(fechaInicial, fechaFinal, null, familia, mandril);
             return File(excelBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "ReportePMU.xlsx");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EnviarCorreo(DateTime fechaInicial, DateTime fechaFinal, string extruder, string familia, string mandril)
+        {
+            var archivoExcel = GenerarExcelInterno(fechaInicial, fechaFinal, extruder, familia, mandril);
+
+            var mensaje = new MimeMessage();
+            mensaje.From.Add(new MailboxAddress("Sistema PU", "extrudersys@outlook.com"));
+            mensaje.To.Add(new MailboxAddress("Destinatario", "luis.orlando@toyodagosei.com"));
+            mensaje.Subject = "Reporte PU";
+
+            var builder = new BodyBuilder
+            {
+                TextBody = "Adjunto el reporte solicitado."
+            };
+            builder.Attachments.Add("ReportePU.xlsx", archivoExcel, ContentType.Parse("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
+            mensaje.Body = builder.ToMessageBody();
+
+            using var client = new MailKit.Net.Smtp.SmtpClient();
+            client.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
+
+            // Conexión sin autenticación
+            await client.ConnectAsync("kysmtp.tggroup.local", 25, SecureSocketOptions.None);
+
+            // No uses AuthenticateAsync aquí
+            await client.SendAsync(mensaje);
+            await client.DisconnectAsync(true);
+
+            TempData["Mensaje"] = "Reporte enviado correctamente al correo.";
+            return RedirectToAction("Imprimir");
         }
 
         public IActionResult Imprimir()
         {
             ViewBag.ExtruderList = new List<SelectListItem>
-    {
-        new SelectListItem { Value = "Extruder 1", Text = "Extruder 1" },
-        new SelectListItem { Value = "Extruder 2", Text = "Extruder 2" },
-        new SelectListItem { Value = "Extruder 3", Text = "Extruder 3" },
-        new SelectListItem { Value = "Extruder 4", Text = "Extruder 4" },
-        new SelectListItem { Value = "Extruder 5", Text = "Extruder 5" },
-        new SelectListItem { Value = "Extruder 6", Text = "Extruder 6" }
-    };
+            {
+                new SelectListItem { Value = "Extruder 1", Text = "Extruder 1" },
+                new SelectListItem { Value = "Extruder 2", Text = "Extruder 2" },
+                new SelectListItem { Value = "Extruder 3", Text = "Extruder 3" },
+                new SelectListItem { Value = "Extruder 4", Text = "Extruder 4" },
+                new SelectListItem { Value = "Extruder 5", Text = "Extruder 5" },
+                new SelectListItem { Value = "Extruder 6", Text = "Extruder 6" }
+            };
+
             ViewBag.FamiliaList = new List<SelectListItem>
-    {
-        new SelectListItem { Value = "16X24", Text = "16X24" },
-    };
+            {
+                new SelectListItem { Value = "16X24", Text = "16X24" },
+            };
 
             ViewBag.MandrilList = new List<SelectListItem>
-    {
-        new SelectListItem { Value = "V5-MX", Text = "V5-MX" },
-    };
+            {
+                new SelectListItem { Value = "V5-MX", Text = "V5-MX" },
+            };
+
             return View();
         }
 
@@ -117,7 +153,6 @@ namespace WebApplication4.Controllers
         {
             return View();
         }
-
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

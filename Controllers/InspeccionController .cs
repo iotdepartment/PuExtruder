@@ -107,5 +107,4 @@ public class InspeccionController : Controller
         TempData["TipoMensaje"] = "warning";
         return View(model);
     }
-
 }
