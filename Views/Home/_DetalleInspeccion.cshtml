@@ -1,0 +1,67 @@
+﻿@model PUMASTER
+
+<table class="table table-sm table-bordered align-middle">
+    <thead class="table-primary">
+        <tr>
+            <th>Campo</th>
+            <th>Primera Pieza</th>
+            <th>Ultima Pieza</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <td><strong>ID</strong></td>
+            <td>@Model.ID_A</td>
+            <td>@Model.ID_B</td>
+        </tr>
+
+        <tr>
+            <td><strong>Longitud</strong></td>
+            <td>@Model.LONGITUD_A</td>
+            <td>@Model.LONGITUD_B</td>
+        </tr>
+
+        <tr>
+            <td><strong>Paredes</strong></td>
+            <td>@Model.PARED12_A / @Model.PARED3_A / @Model.PARED6_A / @Model.PARED9_A</td>
+            <td>@Model.PARED12_B / @Model.PARED3_B / @Model.PARED6_B / @Model.PARED9_B</td>
+        </tr>
+
+        <tr>
+            <td><strong>Pitch</strong></td>
+            <td>@Model.PITCH_A</td>
+            <td>@Model.PITCH_B</td>
+        </tr>
+
+        <tr>
+            <td><strong>P. Interna</strong></td>
+            <td>@Model.PARED_INTERNA_A</td>
+            <td>@Model.PARED_INTERNA_B</td>
+        </tr>
+
+        <tr>
+            <td><strong>P. Externa</strong></td>
+            <td>@Model.PARED_EXTERNA_A</td>
+            <td>@Model.PARED_EXTERNA_B</td>
+        </tr>
+
+        <tr>
+            <td><strong>Long Leyenda</strong></td>
+            <td>@Model.LONGITUD_LEYENDA_A</td>
+            <td>@Model.LONGITUD_LEYENDA_B</td>
+        </tr>
+
+        <tr>
+            <td><strong>Grosor Leyenda</strong></td>
+            <td>@Model.GROSOR_LEYENDA_A</td>
+            <td>@Model.GROSOR_LEYENDA_B</td>
+        </tr>
+
+        <tr>
+            <td><strong>Logo</strong></td>
+            <td>@Model.LOGO_A</td>
+            <td>@Model.LOGO_B</td>
+        </tr>
+    </tbody>
+</table>

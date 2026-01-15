@@ -30,6 +30,16 @@ namespace WebApplication4.Controllers
             return View(REGISTROS);
         }
 
+        public IActionResult Detalle(int id)
+        {
+            var item = _context.PUMASTER.FirstOrDefault(x => x.ID == id);
+
+            if (item == null)
+                return NotFound();
+
+            return PartialView("_DetalleInspeccion", item);
+        }
+
         // Método que genera Excel y devuelve bytes (para reutilizar)
         private byte[] GenerarExcelInterno(DateTime fechaInicial, DateTime fechaFinal, string extruder, string familia, string mandril)
         {
@@ -66,7 +76,6 @@ namespace WebApplication4.Controllers
                 hoja.Cells[$"J{fila}"].Value = r.PITCH_A;
                 hoja.Cells[$"M{fila}"].Value = r.LONGITUD_LEYENDA_A;
                 hoja.Cells[$"N{fila}"].Value = r.GROSOR_LEYENDA_A;
-
                 hoja.Cells[$"O{fila}"].Value = r.LONGITUD_B;
                 hoja.Cells[$"P{fila}"].Value = r.LOGO_B;
                 hoja.Cells[$"Q{fila}"].Value = r.PARED3_B;
