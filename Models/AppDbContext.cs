@@ -12,6 +12,8 @@ namespace WebApplication4.Models
         public DbSet<PUMASTER> PUMASTER { get; set; }
 
         public DbSet<USERS> USERS { get; set; }
+
+        public DbSet<TOLERANCES> TOLERANCES { get; set; }
     }
 }
 

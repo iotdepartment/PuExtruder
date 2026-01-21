@@ -1,0 +1,61 @@
+﻿@model TOLERANCES
+
+<table class="table table-sm table-bordered align-middle">
+    <thead class="table-primary">
+        <tr>
+            <th>Parametro</th>
+            <th>Nominal</th>
+            <th>Tolerancia</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <td><strong>ID</strong></td>
+            <td>@Model.ID_</td>
+            <td>@Model.ID_TOL</td>
+        </tr>
+
+        <tr>
+            <td><strong>Longitud de corte</strong></td>
+            <td>@Model.LONGITUD_CORTE</td>
+            <td>@Model.LONGITUD_CORTE_TOL</td>
+        </tr>
+
+        <tr>
+            <td><strong>Paredes</strong></td>
+            <td>@Model.PARED</td>
+            <td>@Model.PARED_TOL</td>
+        </tr>
+
+        <tr>
+            <td><strong>Pitch</strong></td>
+            <td>@Model.PITCH</td>
+            <td>@Model.PITCH_TOL</td>
+        </tr>
+
+        <tr>
+            <td><strong>P. Interna</strong></td>
+            <td>@Model.INNER_YARN</td>
+            <td>@Model.INNER_YARN_TOL</td>
+        </tr>
+
+        <tr>
+            <td><strong>P. Externa</strong></td>
+            <td>@Model.OUTER_YARN </td>
+            <td>@Model.OUTER_YARN_TOL</td>
+        </tr>
+
+        <tr>
+            <td><strong>Long Leyenda</strong></td>
+            <td>@Model.LONGITUD_LEYENDA</td>
+            <td>@Model.LONGITUD_LEYENDA_TOL</td>
+        </tr>
+
+        <tr>
+            <td><strong>Grosor Leyenda</strong></td>
+            <td>@Model.GROSOR_LEYENDA</td>
+            <td>@Model.GROSOR_LEYENDA_TOL</td>
+        </tr>
+    </tbody>
+</table>

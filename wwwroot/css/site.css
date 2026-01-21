@@ -34,3 +34,8 @@ body {
     margin-bottom: 60px;
     background-color: #EEEEEE;
 }
+
+.parameter-box {
+    background: #f8f9fa;
+    border-left: 4px solid #0d6efd;
+}
