@@ -41,7 +41,7 @@ body {
 }
 
 .fondo-sistema {
-    background-image: url('/images/Fondo.png');
+    background-image: url('/Images/Fondo.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
