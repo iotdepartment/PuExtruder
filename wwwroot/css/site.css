@@ -39,3 +39,11 @@ body {
     background: #f8f9fa;
     border-left: 4px solid #0d6efd;
 }
+
+.fondo-sistema {
+    background-image: url('/images/Fondo.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* opcional, da efecto elegante */
+}

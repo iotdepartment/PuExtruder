@@ -3,11 +3,11 @@
     ViewData["Title"] = "Imprimir";
 }
 
-<div class="container-sm mb-4 mt-3 p-4 rounded-3 shadow-lg bg-white">
+<div class="container-sm mb-4 mt-3 p-4 rounded-3 shadow-lg bg-white form-animado">
     <h2>IMPRIMIR PU</h2>
     <hr class="border border-dark border-0 mb-4 opacity-100">
 
-    <form asp-controller="Home" class="form-animado" asp-action="GenerarExcel" method="post">
+    <form asp-controller="Home" asp-action="GenerarExcel" method="post">
         <div class="row mb-3">
             <div class="col-md-3">
                 <label for="fechaInicial" class="form-label">FECHA INICIAL:</label>
