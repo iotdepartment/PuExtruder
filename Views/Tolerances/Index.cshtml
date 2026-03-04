@@ -70,7 +70,7 @@
 </div>
 
 <div class="modal fade" id="createEditModal" tabindex="-1" aria-labelledby="createEditModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
 
             <div class="modal-header bg-primary text-white">
@@ -94,12 +94,12 @@
                                 <label class="form-label">Extruder:</label>
                                 <select name="EXTRUDER" class="form-control" required>
                                     <option value="">-- Seleccione Extruder --</option>
-                                    <option value="EXTRUDER 1">EXTRUDER 1</option>
-                                    <option value="EXTRUDER 2">EXTRUDER 2</option>
-                                    <option value="EXTRUDER 3">EXTRUDER 3</option>
-                                    <option value="EXTRUDER 4">EXTRUDER 4</option>
-                                    <option value="EXTRUDER 5">EXTRUDER 5</option>
-                                    <option value="EXTRUDER 6">EXTRUDER 6</option>
+                                    <option value="Extruder 1">Extruder 1</option>
+                                    <option value="Extruder 2">Extruder 2</option>
+                                    <option value="Extruder 3">Extruder 3</option>
+                                    <option value="Extruder 4">Extruder 4</option>
+                                    <option value="Extruder 5">Extruder 5</option>
+                                    <option value="Extruder 6">Extruder 6</option>
                                 </select>
                                 </div>
                             </div>
@@ -346,29 +346,29 @@
                     $("input[name='EXTRUDER']").val(data.extruder);
                     $("input[name='FAMILIA']").val(data.familia);
 
-                    $("input[name='ID_']").val(data.id_);
-                    $("input[name='ID_TOL']").val(data.id_tol);
+                    $("input[name='ID_']").val(data.iD_);
+                    $("input[name='ID_TOL']").val(data.iD_TOL);
 
-                    $("input[name='LONGITUD_CORTE']").val(data.longitud_corte);
-                    $("input[name='LONGITUD_CORTE_TOL']").val(data.longitud_corte_tol);
+                    $("input[name='LONGITUD_CORTE']").val(data.longituD_CORTE);
+                    $("input[name='LONGITUD_CORTE_TOL']").val(data.longituD_CORTE_TOL);
 
                     $("input[name='PARED']").val(data.pared);
-                    $("input[name='PARED_TOL']").val(data.pared_tol);
+                    $("input[name='PARED_TOL']").val(data.pareD_TOL);
 
                     $("input[name='PITCH']").val(data.pitch);
-                    $("input[name='PITCH_TOL']").val(data.pitch_tol);
+                    $("input[name='PITCH_TOL']").val(data.pitcH_TOL);
 
-                    $("input[name='INNER_YARN']").val(data.inner_yarn);
-                    $("input[name='INNER_YARN_TOL']").val(data.inner_yarn_tol);
+                    $("input[name='INNER_YARN']").val(data.inneR_YARN);
+                    $("input[name='INNER_YARN_TOL']").val(data.inneR_YARN_TOL);
 
-                    $("input[name='OUTER_YARN']").val(data.outer_yarn);
-                    $("input[name='OUTER_YARN_TOL']").val(data.outer_yarn_tol);
+                    $("input[name='OUTER_YARN']").val(data.outeR_YARN);
+                    $("input[name='OUTER_YARN_TOL']").val(data.outeR_YARN_TOL);
 
-                    $("input[name='LONGITUD_LEYENDA']").val(data.longitud_leyenda);
-                    $("input[name='LONGITUD_LEYENDA_TOL']").val(data.longitud_leyenda_tol);
+                    $("input[name='LONGITUD_LEYENDA']").val(data.longituD_LEYENDA);
+                    $("input[name='LONGITUD_LEYENDA_TOL']").val(data.longituD_LEYENDA_TOL);
 
-                    $("input[name='GROSOR_LEYENDA']").val(data.grosor_leyenda);
-                    $("input[name='GROSOR_LEYENDA_TOL']").val(data.grosor_leyenda_tol);
+                    $("input[name='GROSOR_LEYENDA']").val(data.grosoR_LEYENDA);
+                    $("input[name='GROSOR_LEYENDA_TOL']").val(data.grosoR_LEYENDA_TOL);
 
                     // Abrir modal
                     $("#createEditModal").modal("show");

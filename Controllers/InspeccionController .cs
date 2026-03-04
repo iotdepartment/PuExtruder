@@ -16,7 +16,7 @@ public class InspeccionController : Controller
     public async Task<IActionResult> Index()
     {
         var REGISTROS = await _context.PUMASTER.ToListAsync();
-        return View(REGISTROS); 
+        return View(REGISTROS);
     }
 
     public IActionResult Crear()
@@ -43,18 +43,25 @@ public class InspeccionController : Controller
         new SelectListItem { Value = "SI", Text = "SI" },
         new SelectListItem { Value = "NO", Text = "NO" },
     };
-        ViewBag.FamiliaList = new List<SelectListItem>
-    {
-        new SelectListItem { Value = "16X24", Text = "16X24" },
-    };
+
+        // Consulta dinámica de familias desde la tabla TOLERANCES
+        var familias = _context.TOLERANCES
+                               .Where(t => t.FAMILIA != null)   // Evita nulos
+                               .Select(t => t.FAMILIA!)
+                               .Distinct()
+                               .OrderBy(f => f)                 // Opcional: orden alfabético
+                               .ToList();
+
+        ViewBag.FamiliaList = familias
+            .Select(f => new SelectListItem { Value = f, Text = f })
+            .ToList();
 
         ViewBag.MandrilList = new List<SelectListItem>
     {
         new SelectListItem { Value = "V5-MX", Text = "V5-MX" },
     };
 
-
-        ViewBag.EmpleadoList = _context.USERS
+    ViewBag.EmpleadoList = _context.USERS
     .Select(e => new SelectListItem
     {
         Value = e.ID.ToString(),
@@ -65,6 +72,65 @@ public class InspeccionController : Controller
 
 
     }
+
+    [HttpGet]
+    public JsonResult GetFamiliasByExtruder(string extruder)
+    {
+        var familias = _context.TOLERANCES
+                               .Where(t => t.EXTRUDER == extruder && t.FAMILIA != null)
+                               .Select(t => t.FAMILIA!)
+                               .Distinct()
+                               .OrderBy(f => f)
+                               .ToList();
+
+        return Json(familias);
+    }
+
+    [HttpGet]
+    public JsonResult GetMandriles(string extruder, string familia)
+    {
+        var mandriles = _context.TOLERANCES
+                                .Where(t => t.EXTRUDER == extruder
+                                         && t.FAMILIA == familia
+                                         && t.MANDRIL != null)
+                                .Select(t => t.MANDRIL!)
+                                .Distinct()
+                                .OrderBy(m => m)
+                                .ToList();
+
+        return Json(mandriles);
+    }
+
+    [HttpGet]
+    public JsonResult GetParametros(string extruder, string familia, string mandril)
+    {
+        var parametros = _context.TOLERANCES
+                                 .Where(t => t.EXTRUDER == extruder
+                                          && t.FAMILIA == familia
+                                          && t.MANDRIL == mandril)
+                                 .Select(t => new {
+                                     t.ID_,
+                                     t.ID_TOL,
+                                     t.LONGITUD_CORTE,
+                                     t.LONGITUD_CORTE_TOL,
+                                     t.PARED,
+                                     t.PARED_TOL,
+                                     t.PITCH,
+                                     t.PITCH_TOL,
+                                     t.INNER_YARN,
+                                     t.INNER_YARN_TOL,
+                                     t.OUTER_YARN,
+                                     t.OUTER_YARN_TOL,
+                                     t.LONGITUD_LEYENDA,
+                                     t.LONGITUD_LEYENDA_TOL,
+                                     t.GROSOR_LEYENDA,
+                                     t.GROSOR_LEYENDA_TOL
+                                 })
+                                 .FirstOrDefault();
+
+        return Json(parametros);
+    }
+
 
     [HttpGet]
     public JsonResult ObtenerNombreEmpleado(int id)
