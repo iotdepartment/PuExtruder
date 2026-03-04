@@ -18,11 +18,18 @@ namespace WebApplication4.Controllers
             var registros = await _context.TOLERANCES.ToListAsync();
             return View(registros);
         }
+
         [HttpPost]
         public async Task<IActionResult> Create(TOLERANCES model)
         {
             if (!ModelState.IsValid)
                 return RedirectToAction("Index");
+
+            // Forzar mayúsculas y agregar sufijo -MX
+            if (!string.IsNullOrEmpty(model.MANDRIL))
+            {
+                model.MANDRIL = model.MANDRIL.ToUpper() + "-MX";
+            }
 
             _context.TOLERANCES.Add(model);
             await _context.SaveChangesAsync();
@@ -103,6 +110,19 @@ namespace WebApplication4.Controllers
             _context.SaveChanges();
 
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public JsonResult GetFamilias(string extruder)
+        {
+            // Ejemplo: obtén las familias desde la BD filtrando por extruder
+            var familias = _context.TOLERANCES
+                .Where(t => t.EXTRUDER == extruder)
+                .Select(t => t.FAMILIA)
+                .Distinct()
+                .ToList();
+
+            return Json(familias);
         }
     }
 }

@@ -4,7 +4,7 @@
 
 <div class="container-fluid mb-4 mt-3 p-4 rounded-3 shadow-lg bg-white form-animado">
     <div class="row">
-        <h2>Mandriles</h2>
+        <h2>MANDRILES</h2>
         <hr class="border border-dark border-0 mb-4 opacity-100">
     </div>
 
@@ -20,7 +20,7 @@
         {
             <div class="row dt-row mt-2">
                 <div class="table">
-                    <table id="TeamMembers" class="table table-striped table-bordered">
+                    <table id="Mandriles" class="table table-striped table-bordered">
                         <thead class="table-dark">
                             <tr>
                                 <th>Extruder</th>
@@ -78,50 +78,57 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
 
-            <form id="teamMemberForm" method="post" action="/Tolerances/Create">
+            <form id="MandrilForm" method="post" action="/Tolerances/Create">
                 <div class="modal-body">
+                    
+                    <div class="parameter-box mb-3 p-3 border rounded shadow-sm">
+                        <h5 class="mb-2 fw-bold">Datos Generales</h5>
+                        <div class="row mb-1">
+                            <div class="col-4 align-items-end">
+                                <label class="form-label">Mandril:</label>
+                                <div class="input-group">
+                                    <input type="text" name="MANDRIL" class="form-control" maxlength="4" oninput="this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, '')" required />
+                                    <span class="input-group-text">-MX</span>
+                                </div>
+                            </div>
+                        
+                            <div class="row mb-1">
+                                <div class="col-4">
+                                    <label class="form-label">Extruder:</label>
+                                    <select id="extruderSelect" name="EXTRUDER" class="form-control" required>
+                                        <option value="">-- Seleccione Extruder --</option>
+                                        <option value="Extruder 1">Extruder 1</option>
+                                        <option value="Extruder 2">Extruder 2</option>
+                                        <option value="Extruder 3">Extruder 3</option>
+                                        <option value="Extruder 4">Extruder 4</option>
+                                        <option value="Extruder 5">Extruder 5</option>
+                                        <option value="Extruder 6">Extruder 6</option>
+                                    </select>
+                                </div>
+                            </div>
 
-                        <div class="parameter-box mb-3 p-3 border rounded shadow-sm">
-                            <h5 class="mb-2 fw-bold">Datos Generales</h5>
                             <div class="row mb-1">
-                                <div class="col-10">
-                                    <label class="form-label">Mandril:</label>
-                                    <input type="text" name="MANDRIL" class="form-control" required />
-                                </div>
-                            </div>
-                            <div class="row mb-1">
-                                <div class="col-10">
-                                <label class="form-label">Extruder:</label>
-                                <select name="EXTRUDER" class="form-control" required>
-                                    <option value="">-- Seleccione Extruder --</option>
-                                    <option value="Extruder 1">Extruder 1</option>
-                                    <option value="Extruder 2">Extruder 2</option>
-                                    <option value="Extruder 3">Extruder 3</option>
-                                    <option value="Extruder 4">Extruder 4</option>
-                                    <option value="Extruder 5">Extruder 5</option>
-                                    <option value="Extruder 6">Extruder 6</option>
-                                </select>
-                                </div>
-                            </div>
-                            <div class="row mb-1">
-                                <div class="col-10">
+                                <div class="col-4">
                                     <label class="form-label">Familia:</label>
-                                    <input type="text" name="FAMILIA" class="form-control" required />
+                                    <select id="familiaSelect" name="FAMILIA" class="form-control" required>
+                                        <option value="">-- Seleccione Familia --</option>
+                                    </select>
                                 </div>
                             </div>
-                        </div>
 
+                        </div>
+                    </div>
                     <!-- ID -->
                         <div class="parameter-box mb-3 p-3 border rounded shadow-sm">
                             <h5 class="mb-2 fw-bold">Diametro Interno</h5>
                             <div class="row">
                                 <div class="col-6">
                                     <label class="form-label">Nominal:</label>
-                                    <input type="text" name="ID_" class="form-control" required />
+                                    <input type="number" step="any" name="ID_" class="form-control" required />
                                 </div>
                                 <div class="col-6">
                                     <label class="form-label">Tolerancia:</label>
-                                    <input type="text" name="ID_TOL" class="form-control" required />
+                                    <input type="number" step="any" name="ID_TOL" class="form-control" required />
                                 </div>
                             </div>
                         </div>
@@ -132,11 +139,11 @@
                             <div class="row">
                                 <div class="col-6">
                                     <label class="form-label">Nominal:</label>
-                                    <input type="text" name="LONGITUD_CORTE" class="form-control" required />
+                                    <input type="number" step="any" name="LONGITUD_CORTE" class="form-control" required />
                                 </div>
                                 <div class="col-6">
                                     <label class="form-label">Tolerancia:</label>
-                                    <input type="text" name="LONGITUD_CORTE_TOL" class="form-control" required />
+                                    <input type="number" step="any" name="LONGITUD_CORTE_TOL" class="form-control" required />
                                 </div>
                             </div>
                         </div>
@@ -147,11 +154,11 @@
                             <div class="row">
                                 <div class="col-6">
                                     <label class="form-label">Nominal:</label>
-                                    <input type="text" name="PARED" class="form-control" required />
+                                    <input type="number" step="any" name="PARED" class="form-control" required />
                                 </div>
                                 <div class="col-6">
                                     <label class="form-label">Tolerancia:</label>
-                                    <input type="text" name="PARED_TOL" class="form-control" required />
+                                    <input type="number" step="any" name="PARED_TOL" class="form-control" required />
                                 </div>
                             </div>
                         </div>
@@ -162,11 +169,11 @@
                                 <div class="row">
                                     <div class="col-6">
                                         <label class="form-label">Nominal:</label>
-                                        <input type="text" name="PITCH" class="form-control" required />
+                                        <input type="number" step="any" name="PITCH" class="form-control" required />
                                     </div>
                                     <div class="col-6">
                                         <label class="form-label">Tolerancia:</label>
-                                        <input type="text" name="PITCH_TOL" class="form-control" required />
+                                        <input type="number" step="any" name="PITCH_TOL" class="form-control" required />
                                     </div>
                                 </div>
                             </div>
@@ -177,11 +184,11 @@
                             <div class="row">
                                 <div class="col-6">
                                     <label class="form-label">Nominal:</label>
-                                    <input type="text" name="INNER_YARN" class="form-control" required />
+                                    <input type="number" step="any" name="INNER_YARN" class="form-control" required />
                                 </div>
                                 <div class="col-6">
                                     <label class="form-label">Tolerancia:</label>
-                                    <input type="text" name="INNER_YARN_TOL" class="form-control" required />
+                                    <input type="number" step="any" name="INNER_YARN_TOL" class="form-control" required />
                                 </div>
                             </div>
                         </div>
@@ -192,11 +199,11 @@
                             <div class="row">
                                 <div class="col-6">
                                     <label class="form-label">Nominal:</label>
-                                    <input type="text" name="OUTER_YARN" class="form-control" required />
+                                    <input type="number" step="any" name="OUTER_YARN" class="form-control" required />
                                 </div>
                                 <div class="col-6">
                                     <label class="form-label">Tolerancia:</label>
-                                    <input type="text" name="OUTER_YARN_TOL" class="form-control" required />
+                                    <input type="number" step="any" name="OUTER_YARN_TOL" class="form-control" required />
                                 </div>
                             </div>
                         </div>
@@ -207,11 +214,11 @@
                             <div class="row">
                                 <div class="col-6">
                                     <label class="form-label">Nominal:</label>
-                                    <input type="text" name="LONGITUD_LEYENDA" class="form-control" required />
+                                    <input type="number" step="any" name="LONGITUD_LEYENDA" class="form-control" required />
                                 </div>
                                 <div class="col-6">
                                     <label class="form-label">Tolerancia:</label>
-                                    <input type="text" name="LONGITUD_LEYENDA_TOL" class="form-control" required />
+                                    <input type="number" step="any" name="LONGITUD_LEYENDA_TOL" class="form-control" required />
                                 </div>
                             </div>
                         </div>
@@ -222,19 +229,19 @@
                             <div class="row">
                                 <div class="col-6">
                                     <label class="form-label">Nominal:</label>
-                                    <input type="text" name="GROSOR_LEYENDA" class="form-control" required />
+                                    <input type="number" step="any" name="GROSOR_LEYENDA" class="form-control" required />
                                 </div>
                                 <div class="col-6">
                                     <label class="form-label">Tolerancia:</label>
-                                    <input type="text" name="GROSOR_LEYENDA_TOL" class="form-control" required />
+                                    <input type="number" step="any" name="GROSOR_LEYENDA_TOL" class="form-control" required />
                                 </div>
                             </div>
                         </div>
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-success">Guardar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button> 
                 </div>
             </form>
         </div>
@@ -275,7 +282,7 @@
         $(document).ready(function () {
 
             // Inicializar DataTable
-            var table = $('#TeamMembers').DataTable({
+            var table = $('#Mandriles').DataTable({
                 pageLength: 10,
                 order: [],
                 language: {
@@ -284,7 +291,7 @@
             });
 
             // Evento para cargar detalles usando child rows
-            $('#TeamMembers tbody').on('click', '.btn-detalle', function () {
+            $('#Mandriles tbody').on('click', '.btn-detalle', function () {
 
                 var tr = $(this).closest('tr');
                 var row = table.row(tr);
@@ -326,11 +333,11 @@
             $("#createEditModalLabel").text("Editar Mandril");
 
             // Cambiar acción del formulario
-            $("#teamMemberForm").attr("action", "/Tolerances/Update");
+              $("#MandrilForm").attr("action", "/Tolerances/Update");
 
             // Guardar ID en un campo oculto (si no existe, créalo)
             if ($("#editId").length === 0) {
-                $("#teamMemberForm").append('<input type="hidden" id="editId" name="ID" />');
+                  $("#MandrilForm").append('<input type="hidden" id="editId" name="ID" />');
             }
             $("#editId").val(id);
 
@@ -376,10 +383,6 @@
             });
         });
 
-
-
-
-
       // Evento para cargar el modal para confirmar eliminar registro
         $(document).on("click", ".btn-delete", function () {
             const id = $(this).data("id");
@@ -402,6 +405,27 @@
                     alert("Error al eliminar el registro.");
                 }
             });
+        });
+
+        document.getElementById("extruderSelect").addEventListener("change", function () {
+            var extruder = this.value;
+            var familiaSelect = document.getElementById("familiaSelect");
+
+            // Limpiar opciones previas
+            familiaSelect.innerHTML = '<option value="">-- Seleccione Familia --</option>';
+
+            if (extruder) {
+                fetch('/TOLERANCES/GetFamilias?extruder=' + encodeURIComponent(extruder))
+                    .then(response => response.json())
+                    .then(data => {
+                        data.forEach(familia => {
+                            var option = document.createElement("option");
+                            option.value = familia;
+                            option.text = familia;
+                            familiaSelect.appendChild(option);
+                        });
+                    });
+            }
         });
 
 

@@ -15,7 +15,7 @@
 
     <div class="row mt-2">
         <div class="col-12">
-             <a href="/Inspeccion/Crear" class="btn btn-primary">➕ Nueva inspección</a>
+             <a href="/Inspeccion/Crear" class="btn btn-success">➕ Nuevo Registro</a>
         </div>
     </div>
 
@@ -43,7 +43,7 @@
                             <tr>
                                 <td>@item?.NOMBRE (@item?.NRO_EMPLEADO)</td>
                                 <td>@item?.TURNO</td>
-                                <td>@item?.FECHA.ToShortDateString() / @item?.HORA</td>
+                                <td>@item?.FECHA.ToShortDateString() / @item?.HORA.ToString(@"hh\:mm")</td>
                                 <td>@item?.EXTRUDER</td>
                                 <td>@item?.FAMILIA</td>
                                 <td>@item?.MANDRIL</td>
