@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using WebApplication4.Models;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace WebApplication4.Controllers
 {
@@ -24,12 +25,37 @@ namespace WebApplication4.Controllers
             _env = env;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string extruder, DateTime? fecha)
         {
-            var REGISTROS = await _context.PUMASTER.ToListAsync();
-            return View(REGISTROS);
-        }
+            var query = _context.PUMASTER.AsQueryable();
 
+            // Filtro por extruder
+            if (!string.IsNullOrEmpty(extruder))
+            {
+                query = query.Where(r => r.EXTRUDER == extruder);
+            }
+
+            // Filtro por fecha (solo día, sin hora)
+            if (fecha.HasValue)
+            {
+                query = query.Where(r => r.FECHA.Date == fecha.Value.Date);
+            }
+
+            var registros = await query
+                .OrderByDescending(r => r.ID)
+                .ToListAsync();
+
+            // Extruders disponibles (sin filtrar)
+            ViewBag.Extruders = await _context.PUMASTER
+                .Select(r => r.EXTRUDER)
+                .Distinct()
+                .ToListAsync();
+
+            ViewBag.SelectedExtruder = extruder;
+            ViewBag.SelectedFecha = fecha?.ToString("yyyy-MM-dd");
+
+            return View(registros);
+        }
         public IActionResult Detalle(int id)
         {
             var item = _context.PUMASTER.FirstOrDefault(x => x.ID == id);

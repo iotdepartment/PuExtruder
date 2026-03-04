@@ -13,12 +13,46 @@
         <hr class="border border-dark border-0 mb-4 opacity-100">
     </div>
 
-    <div class="row mt-2">
+    <div class="row mt-1 mb-4">
         <div class="col-12">
              <a href="/Inspeccion/Crear" class="btn btn-success">➕ Nuevo Registro</a>
         </div>
+        
     </div>
 
+    <form method="get" asp-action="Index">
+        <div class="row mb-4">
+            <div class="col-md-2">
+                <strong>Extruder:</strong>
+            
+                    <select name="extruder" class="form-select rounded-pill">
+                        <option value="">-- Todos --</option>
+                        @foreach (var extruder in ViewBag.Extruders as List<string>)
+                        {
+                            if (extruder == ViewBag.SelectedExtruder)
+                            {
+                                <option value="@extruder" selected>@extruder</option>
+                            }
+                            else
+                            {
+                                <option value="@extruder">@extruder</option>
+                            }
+                        }
+                    </select>
+            </div>
+
+            <div class="col-md-2">
+                <strong>Fecha:</strong>
+                <input type="date" name="fecha" class="form-control rounded-pill"
+                       value="@ViewBag.SelectedFecha" />
+            </div>
+
+            <div class="col-md-2 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary rounded-pill">Filtrar</button>
+            </div>
+
+        </div>
+    </form>
     @if (Model != null && Model.Any())
     {
         <div class="row dt-row mt-3">
