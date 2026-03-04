@@ -10,7 +10,7 @@
 
     <div class="row mt-2">
         <div class="col-12">
-            <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#createEditModal" onclick="openCreateModal()">
+            <button class="btn btn-success mb-3 rounded-pill" data-bs-toggle="modal" data-bs-target="#createEditModal" onclick="openCreateModal()">
                 <i class="bi bi-person-plus"></i>
                 Nuevo Mandril
             </button>
@@ -38,18 +38,18 @@
                                     <td>@item.MANDRIL</td>
                                     <td>@item.FAMILIA</td>
                                     <td>
-                                        <button class="btn btn-sm btn-primary btn-detalle"
+                                        <button class="btn btn-sm btn-primary btn-detalle rounded-pill"
                                                 data-id="@item.ID">
                                             Ver detalles
                                         </button>
 
-                                        <button class="btn btn-sm btn-warning btn-edit"
+                                        <button class="btn btn-sm btn-warning btn-edit rounded-pill"
                                                 data-id="@item.ID">
                                             Modificar
                                         </button>
 
 
-                                        <button class="btn btn-sm btn-danger btn-delete"
+                                        <button class="btn btn-sm btn-danger btn-delete rounded-pill"
                                                 data-id="@item.ID">
                                             Eliminar
                                         </button>
@@ -240,8 +240,8 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">Guardar</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button> 
+                    <button type="submit" class="btn btn-success rounded-pill">Guardar</button>
+                    <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Cancelar</button> 
                 </div>
             </form>
         </div>

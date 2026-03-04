@@ -2,16 +2,17 @@
 @{
     ViewData["Title"] = "Registro de Medidas PU Extruder";
 }
-@if (TempData["Mensaje"] != null)
-{
-    var tipo = TempData["TipoMensaje"]?.ToString() ?? "info";
-    <div class="alert alert-@tipo alert-dismissible fade show" role="alert">
-        @TempData["Mensaje"]
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-}
+
 <form asp-action="Crear" method="post" class="form-animado">
     <div class="container mt-3 shadow-lg p-4 mb-5 bg-white rounded-3">
+        @if (TempData["Mensaje"] != null)
+        {
+            var tipo = TempData["TipoMensaje"]?.ToString() ?? "info";
+            <div class="alert alert-@tipo alert-dismissible fade show" role="alert">
+                @TempData["Mensaje"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
         <h2>REGISTRO DE MEDIDAS PU EXTRUDER</h2>
         <hr class="border border-dark border-0 mb-4 opacity-100">
 
@@ -290,9 +291,9 @@
         <!-- Botones -->
         <div class="row mt-3">
             <div class="col-md-12 text-end">
-                <button type="submit" class="btn btn-success px-4 me-2 shadow-sm">Guardar</button>
-                <button type="reset" class="btn btn-secondary px-4 me-2">Limpiar</button>
-                <a asp-action="Index" asp-controller="Home" class="btn btn-info px-4">Mostrar Registros</a>
+                <button type="submit" class="btn btn-success px-4 me-2 shadow-sm rounded-pill">Guardar</button>
+                <button type="reset" class="btn btn-secondary px-4 me-2 rounded-pill">Limpiar</button>
+                <a asp-action="Index" asp-controller="Home" class="btn btn-info px-4 rounded-pill">Mostrar Registros</a>
             </div>
         </div>
     </div>
@@ -530,7 +531,15 @@
             });
         });
 
-
+        document.addEventListener("DOMContentLoaded", function () {
+            var alertEl = document.querySelector('.alert');
+            if (alertEl) {
+                setTimeout(function () {
+                    var alert = bootstrap.Alert.getOrCreateInstance(alertEl);
+                    alert.close();
+                }, 2000); // 5 segundos
+            }
+        });
 
     </script>
 
