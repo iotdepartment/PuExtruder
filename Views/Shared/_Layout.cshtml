@@ -17,28 +17,39 @@
             </a>
             <a class="navbar-brand ms-5 fw-bold" href="/">REGISTRO PU ELECTRONICO</a>
                 <ul class="navbar-nav me-auto ms-5 mb-2 mb-lg-0">
-                <li class="nav-item ms-6">
-                    <a class="nav-link" href="/">Home</a>
-                </li>
-                <li class="nav-item ms-5">
-                    <a class="nav-link" href="#">Charts</a>
-                </li>
-                <li class="nav-item dropdown ms-5">
-                    <a class="nav-link dropdown-toggle" href="#" id="weekDropdown" role="button" data-bs-toggle="dropdown">
-                        More
-                    </a>
-                    <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="/Inspeccion/Crear">Nuevo registro</a></li>
-                    <li><a class="dropdown-item" href="/Home">Registros</a></li>
-                    <li><a class="dropdown-item" href="/Home/Imprimir">Imprimir PU</a></li>
-                    <li><a class="dropdown-item" href="/Usuarios/Index">Team Members</a></li>
-                        <li><a class="dropdown-item" href="/Tolerances/Index">Mandriles</a></li>
-                    </ul>
-                </li>
+                    <li class="nav-item ms-6">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item ms-5">
+                        <a class="nav-link" href="#">Charts</a>
+                    </li>
 
                     <li class="nav-item ms-5">
                         <a class="nav-link" href="/Account">Help</a>
                     </li>
+
+                    <!-- Botón para abrir el modal -->
+                    <li class="nav-item ms-5" id="accessButton">
+                        <button class="btn btn-outline-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#passwordModal">
+                            Acceso protegido
+                        </button>
+                    </li>
+
+                    <!-- Dropdown oculto inicialmente -->
+                    <li class="nav-item dropdown ms-5" id="protectedDropdown" style="display:none;">
+                        <a class="nav-link dropdown-toggle" href="#" id="weekDropdown" role="button" data-bs-toggle="dropdown">
+                            More
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/Inspeccion/Crear">Nuevo registro</a></li>
+                            <li><a class="dropdown-item" href="/Home">Registros</a></li>
+                            <li><a class="dropdown-item" href="/Home/Imprimir">Imprimir PU</a></li>
+                            <li><a class="dropdown-item" href="/Usuarios/Index">Team Members</a></li>
+                            <li><a class="dropdown-item" href="/Tolerances/Index">Mandriles</a></li>
+                        </ul>
+                    </li>
+
+                    
                 </ul>
         </nav>
     </header>
@@ -59,3 +70,38 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+<!-- Modal Bootstrap -->
+<div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="passwordModalLabel">Acceso protegido</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <label for="passwordInput" class="form-label">Ingrese la contraseña:</label>
+                <input type="password" id="passwordInput" class="form-control" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="validatePassword()">Acceder</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+     function validatePassword() {
+        const password = document.getElementById("passwordInput").value;
+        if (password === "1234") { // Cambia "1234" por tu contraseña real
+            document.getElementById("protectedDropdown").style.display = "block";
+            document.getElementById("accessButton").style.display = "none";
+            var modal = bootstrap.Modal.getInstance(document.getElementById('passwordModal'));
+            modal.hide();
+        } else {
+            alert("Contraseña incorrecta");
+        }
+    }
+</script>
+

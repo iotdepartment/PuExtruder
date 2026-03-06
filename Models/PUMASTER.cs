@@ -10,7 +10,7 @@ public class PUMASTER
     [Required]
     public string NOMBRE { get; set; }
     [Required]
-    public int TURNO { get; set; }
+    public String TURNO { get; set; }
     [Required]
     public DateTime FECHA { get; set; }
     [Required]
@@ -43,6 +43,10 @@ public class PUMASTER
     public string LONGITUD_LEYENDA_A { get; set; }
     [Required]
     public string GROSOR_LEYENDA_A { get; set; }
+
+    [Required]
+    public string PESO_A { get; set; }
+
     [Required]
     public string LOGO_A { get; set; }
     [Required]
@@ -68,7 +72,12 @@ public class PUMASTER
     [Required]
     public string GROSOR_LEYENDA_B { get; set; }
     [Required]
+    public string PESO_B { get; set; }
+    [Required]
     public string LOGO_B { get; set; }
     [Required]
     public string COMENTARIOS { get; set; }
+    
+
+    
 }

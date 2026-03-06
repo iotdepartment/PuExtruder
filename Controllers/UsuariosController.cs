@@ -29,5 +29,19 @@ namespace WebApplication4.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            var user = _context.USERS.Find(id);
+            if (user != null)
+            {
+                _context.USERS.Remove(user);
+                _context.SaveChanges();
+                return Ok(); // AJAX espera un 200 OK
+            }
+            return NotFound();
+        }
+
     }
 }

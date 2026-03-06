@@ -26,15 +26,21 @@
                         <tr>
                             <th>Team Member</th>
                             <th>Role</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
-
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            <tr>
+                            <tr data-id="@item.ID">
                                 <td>@item.NOMBRE (@item.ID)</td>
                                 <td>@item.ROL</td>
+                                <td>
+                                    <button class="btn btn-danger btn-sm rounded-pill"
+                                            onclick="openDeleteModal(@item.ID)">
+                                        <i class="bi bi-trash"></i> Borrar
+                                    </button>
+                                </td>
                             </tr>
                         }
                     </tbody>
@@ -87,6 +93,31 @@
     </div>
 </div>
 
+<!-- Modal Confirmación Eliminar -->
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">Confirmar Eliminación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <p>¿Seguro que deseas eliminar este Team Member?</p>
+                <input type="hidden" id="deleteId" />
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" id="btnConfirmDelete" class="btn btn-danger">Eliminar</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
 @section Scripts {
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -105,5 +136,48 @@
             });
 
         });
+
+        let deleteId = null;
+
+        function openDeleteModal(id) {
+            deleteId = id;
+            document.getElementById("deleteId").value = id;
+            var modal = new bootstrap.Modal(document.getElementById("deleteConfirmModal"));
+            modal.show();
+        }
+
+        document.getElementById("btnConfirmDelete").addEventListener("click", function () {
+            if (!deleteId) return;
+
+            fetch('/Usuarios/Delete/' + deleteId, {
+                method: 'POST'
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Cerrar modal
+                    var modal = bootstrap.Modal.getInstance(document.getElementById("deleteConfirmModal"));
+                    modal.hide();
+
+                    // Eliminar fila en DataTable
+                    var table = $('#TeamMembers').DataTable();
+                    table.row($(`tr[data-id="${deleteId}"]`)).remove().draw();
+
+                    deleteId = null;
+                } else {
+                    alert("Error al eliminar el registro.");
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert("Error de conexión.");
+            });
+        });
+
+        // Inicializar DataTable
+        $(document).ready(function () {
+            $('#TeamMembers').DataTable();
+        });
+
+
     </script>
 }
