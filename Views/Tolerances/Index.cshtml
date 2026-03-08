@@ -8,13 +8,27 @@
         <hr class="border border-dark border-0 mb-4 opacity-100">
     </div>
 
-    <div class="row mt-2">
+    <div class="row mt-2 mb-2">
         <div class="col-12">
             <button class="btn btn-success mb-3 rounded-pill" data-bs-toggle="modal" data-bs-target="#createEditModal" onclick="openCreateModal()">
                 <i class="bi bi-person-plus"></i>
                 Nuevo Mandril
             </button>
         </div>
+
+        <div class="row mb-3">
+            <div class="col-md-2">
+                <label for="extruderFilter" class="form-label fw-bold">Filtrar por Extruder:</label>
+                <select id="extruderFilter" class="form-select rounded-pill">
+                    <option value="">Todos</option>
+                    @foreach (var extruder in Model.Select(m => m.EXTRUDER).Distinct())
+                    {
+                        <option value="@extruder">@extruder</option>
+                    }
+                </select>
+            </div>
+        </div>
+
 
         @if (Model != null && Model.Any())
         {
@@ -24,8 +38,8 @@
                         <thead class="table-dark">
                             <tr>
                                 <th>Extruder</th>
-                                <th>Mandril</th>
                                 <th>Familia</th>
+                                <th>Mandril</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
@@ -35,8 +49,9 @@
                             {
                                 <tr>
                                     <td>@item.EXTRUDER</td>
-                                    <td>@item.MANDRIL</td>
                                     <td>@item.FAMILIA</td>
+                                    <td>@item.MANDRIL</td>
+                                    
                                     <td>
                                         <button class="btn btn-sm btn-primary btn-detalle rounded-pill"
                                                 data-id="@item.ID">
@@ -273,42 +288,42 @@
 </div>
 
 @section Scripts {
-
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
     <script>
         $(document).ready(function () {
-
-            // Inicializar DataTable
+            // Inicializar DataTable UNA sola vez
             var table = $('#Mandriles').DataTable({
                 pageLength: 10,
-                order: [],
+                order: [[0, 'asc']], // ordenar por columna Extruder
                 language: {
                     url: "https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json"
                 }
             });
 
+            // Filtro por Extruder
+            $('#extruderFilter').on('change', function () {
+                var value = $(this).val();
+                table.column(0).search(value).draw(); // Columna 0 = Extruder
+            });
+
             // Evento para cargar detalles usando child rows
             $('#Mandriles tbody').on('click', '.btn-detalle', function () {
-
                 var tr = $(this).closest('tr');
                 var row = table.row(tr);
                 var id = $(this).data("id");
 
-                // Si ya está abierto, lo cerramos
                 if (row.child.isShown()) {
                     row.child.hide();
                     tr.removeClass('shown');
                     return;
                 }
 
-                // Mostrar spinner mientras carga
                 row.child('<div class="text-center p-3"><div class="spinner-border text-primary"></div></div>').show();
                 tr.addClass('shown');
 
-                // Cargar partial por AJAX
                 $.ajax({
                     url: "/Tolerances/Detalle",
                     type: "GET",
@@ -320,115 +335,104 @@
                         row.child("<p class='text-danger p-3'>Error al cargar detalles.</p>").show();
                     }
                 });
-
             });
 
-        });
+            // Evento para editar
+            $(document).on("click", ".btn-edit", function () {
+                const id = $(this).data("id");
+                $("#createEditModalLabel").text("Editar Mandril");
+                $("#MandrilForm").attr("action", "/Tolerances/Update");
 
-         // Evento para cargar el modal para editar registros
-                $(document).on("click", ".btn-edit", function () {
-            const id = $(this).data("id");
-
-            // Cambiar título del modal
-            $("#createEditModalLabel").text("Editar Mandril");
-
-            // Cambiar acción del formulario
-              $("#MandrilForm").attr("action", "/Tolerances/Update");
-
-            // Guardar ID en un campo oculto (si no existe, créalo)
-            if ($("#editId").length === 0) {
-                  $("#MandrilForm").append('<input type="hidden" id="editId" name="ID" />');
-            }
-            $("#editId").val(id);
-
-            // Cargar datos vía AJAX
-            $.ajax({
-                url: "/Tolerances/GetById",
-                type: "GET",
-                data: { id: id },
-                success: function (data) {
-
-                    // Rellenar campos
-                    $("input[name='MANDRIL']").val(data.mandril);
-                    $("input[name='EXTRUDER']").val(data.extruder);
-                    $("input[name='FAMILIA']").val(data.familia);
-
-                    $("input[name='ID_']").val(data.iD_);
-                    $("input[name='ID_TOL']").val(data.iD_TOL);
-
-                    $("input[name='LONGITUD_CORTE']").val(data.longituD_CORTE);
-                    $("input[name='LONGITUD_CORTE_TOL']").val(data.longituD_CORTE_TOL);
-
-                    $("input[name='PARED']").val(data.pared);
-                    $("input[name='PARED_TOL']").val(data.pareD_TOL);
-
-                    $("input[name='PITCH']").val(data.pitch);
-                    $("input[name='PITCH_TOL']").val(data.pitcH_TOL);
-
-                    $("input[name='INNER_YARN']").val(data.inneR_YARN);
-                    $("input[name='INNER_YARN_TOL']").val(data.inneR_YARN_TOL);
-
-                    $("input[name='OUTER_YARN']").val(data.outeR_YARN);
-                    $("input[name='OUTER_YARN_TOL']").val(data.outeR_YARN_TOL);
-
-                    $("input[name='LONGITUD_LEYENDA']").val(data.longituD_LEYENDA);
-                    $("input[name='LONGITUD_LEYENDA_TOL']").val(data.longituD_LEYENDA_TOL);
-
-                    $("input[name='GROSOR_LEYENDA']").val(data.grosoR_LEYENDA);
-                    $("input[name='GROSOR_LEYENDA_TOL']").val(data.grosoR_LEYENDA_TOL);
-
-                    // Abrir modal
-                    $("#createEditModal").modal("show");
+                if ($("#editId").length === 0) {
+                    $("#MandrilForm").append('<input type="hidden" id="editId" name="ID" />');
                 }
+                $("#editId").val(id);
+
+                $.ajax({
+                    url: "/Tolerances/GetById",
+                    type: "GET",
+                    data: { id: id },
+                    success: function (data) {
+                        $("input[name='MANDRIL']").val(data.mandril);
+                        $("input[name='EXTRUDER']").val(data.extruder);
+                        $("input[name='FAMILIA']").val(data.familia);
+                        $("input[name='ID_']").val(data.iD_);
+                        $("input[name='ID_TOL']").val(data.iD_TOL);
+                        $("input[name='LONGITUD_CORTE']").val(data.longituD_CORTE);
+                        $("input[name='LONGITUD_CORTE_TOL']").val(data.longituD_CORTE_TOL);
+                        $("input[name='PARED']").val(data.pared);
+                        $("input[name='PARED_TOL']").val(data.pareD_TOL);
+                        $("input[name='PITCH']").val(data.pitch);
+                        $("input[name='PITCH_TOL']").val(data.pitcH_TOL);
+                        $("input[name='INNER_YARN']").val(data.inneR_YARN);
+                        $("input[name='INNER_YARN_TOL']").val(data.inneR_YARN_TOL);
+                        $("input[name='OUTER_YARN']").val(data.outeR_YARN);
+                        $("input[name='OUTER_YARN_TOL']").val(data.outeR_YARN_TOL);
+                        $("input[name='LONGITUD_LEYENDA']").val(data.longituD_LEYENDA);
+                        $("input[name='LONGITUD_LEYENDA_TOL']").val(data.longituD_LEYENDA_TOL);
+                        $("input[name='GROSOR_LEYENDA']").val(data.grosoR_LEYENDA);
+                        $("input[name='GROSOR_LEYENDA_TOL']").val(data.grosoR_LEYENDA_TOL);
+
+                        $("#createEditModal").modal("show");
+                    }
+                });
             });
-        });
 
-      // Evento para cargar el modal para confirmar eliminar registro
-        $(document).on("click", ".btn-delete", function () {
-            const id = $(this).data("id");
-            $("#deleteId").val(id);
-            $("#deleteConfirmModal").modal("show");
-        });
-
-        $("#btnConfirmDelete").on("click", function () {
-            const id = $("#deleteId").val();
-
-            $.ajax({
-                url: "/Tolerances/Delete",
-                type: "POST",
-                data: { id: id },
-                success: function (response) {
-                    $("#deleteConfirmModal").modal("hide");
-                    location.reload();
-                },
-                error: function () {
-                    alert("Error al eliminar el registro.");
-                }
+            // Evento para eliminar
+            $(document).on("click", ".btn-delete", function () {
+                const id = $(this).data("id");
+                $("#deleteId").val(id);
+                $("#deleteConfirmModal").modal("show");
             });
-        });
 
-        document.getElementById("extruderSelect").addEventListener("change", function () {
-            var extruder = this.value;
-            var familiaSelect = document.getElementById("familiaSelect");
+            $("#btnConfirmDelete").on("click", function () {
+                const id = $("#deleteId").val();
+                $.ajax({
+                    url: "/Tolerances/Delete",
+                    type: "POST",
+                    data: { id: id },
+                    success: function () {
+                        $("#deleteConfirmModal").modal("hide");
+                        location.reload();
+                    },
+                    error: function () {
+                        alert("Error al eliminar el registro.");
+                    }
+                });
+            });
 
-            // Limpiar opciones previas
-            familiaSelect.innerHTML = '<option value="">-- Seleccione Familia --</option>';
+            // Cascada Extruder -> Familia con orden alfanumérico
+            document.getElementById("extruderSelect").addEventListener("change", function () {
+                var extruder = this.value;
+                var familiaSelect = document.getElementById("familiaSelect");
+                familiaSelect.innerHTML = '<option value="">-- Seleccione Familia --</option>';
 
-            if (extruder) {
-                fetch('/TOLERANCES/GetFamilias?extruder=' + encodeURIComponent(extruder))
-                    .then(response => response.json())
-                    .then(data => {
-                        data.forEach(familia => {
-                            var option = document.createElement("option");
-                            option.value = familia;
-                            option.text = familia;
-                            familiaSelect.appendChild(option);
+                if (extruder) {
+                    fetch('/TOLERANCES/GetFamilias?extruder=' + encodeURIComponent(extruder))
+                        .then(response => response.json())
+                        .then(data => {
+                            // Ordenar alfabéticamente antes de agregar
+                            data.sort((a, b) => a.localeCompare(b));
+                            data.forEach(familia => {
+                                var option = document.createElement("option");
+                                option.value = familia;
+                                option.text = familia;
+                                familiaSelect.appendChild(option);
+                            });
                         });
-                    });
+                }
+            });
+
+            // Ordenar opciones del filtro Extruder al cargar
+            var extruderFilter = document.getElementById("extruderFilter");
+            if (extruderFilter) {
+                let options = Array.from(extruderFilter.options);
+                let first = options.shift(); // mantener "Todos" arriba
+                options.sort((a, b) => a.text.localeCompare(b.text));
+                extruderFilter.innerHTML = "";
+                extruderFilter.appendChild(first);
+                options.forEach(opt => extruderFilter.appendChild(opt));
             }
         });
-
-
-
     </script>
 }

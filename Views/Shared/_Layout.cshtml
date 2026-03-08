@@ -36,7 +36,7 @@
                     </li>
 
                     <!-- Dropdown oculto inicialmente -->
-                    <li class="nav-item dropdown ms-5" id="protectedDropdown" style="display:none;">
+                        <li class="nav-item dropdown ms-5" id="protectedDropdown" @* style="display:none;" *@>
                         <a class="nav-link dropdown-toggle" href="#" id="weekDropdown" role="button" data-bs-toggle="dropdown">
                             More
                         </a>
@@ -94,7 +94,7 @@
 <script>
      function validatePassword() {
         const password = document.getElementById("passwordInput").value;
-        if (password === "1234") { // Cambia "1234" por tu contraseña real
+        if (password === "000") { // Cambia "1234" por tu contraseña real
             document.getElementById("protectedDropdown").style.display = "block";
             document.getElementById("accessButton").style.display = "none";
             var modal = bootstrap.Modal.getInstance(document.getElementById('passwordModal'));

@@ -21,11 +21,14 @@
             <div class="col-3">
                 <h5 class="text-primary border-bottom pb-2 mb-3">DATOS GENERALES</h5>
 
+                <input type="hidden" asp-for="ID" />
+                <input type="hidden" asp-for="STATUS" id="statusField" />
+
                 <div class="row mb-2 align-items-center">
                     <div class="col-4"><label for="NRO_EMPLEADO" class="form-label"># TM:</label></div>
                     <div class="col-8">
-                        <select asp-for="NRO_EMPLEADO" asp-items="ViewBag.EmpleadoList" class="form-control" id="empleadoSelect">
-                            <option value="">- Selecciona Empleado -</option>
+                        <select asp-for="NRO_EMPLEADO" asp-items="ViewBag.EmpleadoList" class="form-select" id="empleadoSelect">
+                            <option value=""> Selecciona # </option>
                         </select>
                         <span asp-validation-for="NRO_EMPLEADO" class="text-danger"></span>
                     </div>
@@ -39,8 +42,8 @@
                 <div class="row mb-2 align-items-center">
                     <div class="col-4"><label for="TURNO" class="form-label">TURNO:</label></div>
                     <div class="col-8">
-                        <select asp-for="TURNO" asp-items="ViewBag.ShiftList" class="form-control">
-                            <option value="">- Selecciona Turno -</option>
+                        <select asp-for="TURNO" asp-items="ViewBag.ShiftList" class="form-select ">
+                            <option value=""> Selecciona Turno </option>
                         </select>
                     </div>
                 </div>
@@ -48,8 +51,8 @@
                 <div class="row mb-2 align-items-center">
                     <div class="col-4"><label for="EXTRUDER" class="form-label">EXTRUDER:</label></div>
                     <div class="col-8">
-                        <select asp-for="EXTRUDER" asp-items="ViewBag.ExtruderList" class="form-control" id="extruderSelect">
-                            <option value="">- Selecciona Extruder -</option>
+                        <select asp-for="EXTRUDER" asp-items="ViewBag.ExtruderList" class="form-select" id="extruderSelect">
+                            <option value=""> Selecciona Extruder </option>
                         </select>
                     </div>
                 </div>
@@ -57,8 +60,8 @@
                 <div class="row mb-2 align-items-center">
                     <div class="col-4"><label for="FAMILIA" class="form-label">FAMILIA:</label></div>
                     <div class="col-8">
-                        <select asp-for="FAMILIA" class="form-control" id="familiaSelect">
-                            <option value="">- Selecciona Familia -</option>
+                        <select asp-for="FAMILIA" class="form-select" id="familiaSelect">
+                            <option value=""> Selecciona Familia </option>
                         </select>
                     </div>
                 </div>
@@ -67,8 +70,8 @@
                 <div class="row mb-2 align-items-center">
                     <div class="col-4"><label for="MANDRIL" class="form-label">MANDRIL:</label></div>
                     <div class="col-8">
-                        <select asp-for="MANDRIL" class="form-control" id="mandrilSelect">
-                            <option value="">- Selecciona Mandril -</option>
+                        <select asp-for="MANDRIL" class="form-select" id="mandrilSelect">
+                            <option value=""> Selecciona Mandril </option>
                         </select>
                     </div>
                 </div>
@@ -136,7 +139,7 @@
                 </div>
 
                 <div class="row mb-2 align-items-center">
-                    <div class="col-6"><label for="PESO_A" class="form-label">PESO:</label></div>
+                    <div class="col-6"><label for="PESO_A" class="form-label">PESO(GRAMOS):</label></div>
                     <div class="col-6"><input asp-for="PESO_A" class="form-control" type="number" step="any" /></div>
                 </div>
 
@@ -150,9 +153,7 @@
                     </div>
                 </div>
             </div>
-
             
-
             <!-- Columna 3: ULTIMA PIEZA -->
             <div class="col-4">
                 <h5 class="text-primary border-bottom pb-2 mb-3">ULTIMA PIEZA</h5>
@@ -213,7 +214,7 @@
                 </div>
 
                 <div class="row mb-2 align-items-center">
-                    <div class="col-6"><label for="PESO_B" class="form-label">PESO:</label></div>
+                    <div class="col-6"><label for="PESO_B" class="form-label">PESO(GRAMOS):</label></div>
                     <div class="col-6"><input asp-for="PESO_B" class="form-control" type="number" step="any" /></div>
                 </div>
 
@@ -223,7 +224,7 @@
                         <select asp-for="LOGO_B" asp-items="ViewBag.LogoList" class="form-control">
                             <option value="">- ¿Leyenda Correcta?-</option>
                         </select>
-                        <span id="logoAFeedback" class="text-danger"></span>
+                        <span id="logoBFeedback" class="text-danger"></span>
                     </div>
                 </div>
             </div>
@@ -232,57 +233,46 @@
                 <h5 class="text-primary border-bottom pb-2 mb-3">NOMINAL</h5>
 
                 <div class="row mb-4">
-                    @* <div class="col-8">ID:</div> *@
                     <div class="col-12 d-flex justify-content-center text-success fw-bold"><span id="param_id"></span></div>
                 </div>
 
                 <div class="row mb-4">
-                    @* <div class="col-8">LONGITUD:</div> *@
                     <div class="col-12 d-flex justify-content-center text-success fw-bold"><span id="param_longitud"></span></div>
                 </div>
 
                 <div class="row mb-4">
-                    @* <div class="col-8">PARED 12:</div> *@
                     <div class="col-12 d-flex justify-content-center text-success fw-bold"><span id="param_pared12"></span></div>
                 </div>
 
                 <div class="row mb-4">
-                    @* <div class="col-8">PARED 3:</div> *@
                     <div class="col-12 d-flex justify-content-center text-success fw-bold"><span id="param_pared3"></span></div>
                 </div>
 
                 <div class="row mb-4">
-                    @* <div class="col-8">PARED 6:</div> *@
                     <div class="col-12 d-flex justify-content-center text-success fw-bold"><span id="param_pared6"></span></div>
                 </div>
 
                 <div class="row mb-4">
-                    @* <div class="col-8">PARED 9:</div> *@
                     <div class="col-12 d-flex justify-content-center text-success fw-bold"><span id="param_pared9"></span></div>
                 </div>
 
                 <div class="row mb-4">
-                    @* <div class="col-8">PITCH:</div> *@
                     <div class="col-12 d-flex justify-content-center text-success fw-bold"><span id="param_pitch"></span></div>
                 </div>
 
                 <div class="row mb-4">
-                    @* <div class="col-8">PARED INTERNA:</div> *@
                     <div class="col-12 d-flex justify-content-center text-success fw-bold"><span id="param_paredInterna"></span></div>
                 </div>
 
                 <div class="row mb-4">
-                    @* <div class="col-9">PARED EXTERNA:</div> *@
                     <div class="col-12 d-flex justify-content-center text-success fw-bold"><span id="param_paredExterna"></span></div>
                 </div>
 
                 <div class="row mb-4">
-                    @* <div class="col-8">LONG. LEYENDA:</div> *@
                     <div class="col-12 d-flex justify-content-center text-success fw-bold"><span id="param_longLeyenda"></span></div>
                 </div>
 
                 <div class="row mb-4">
-                    @* <div class="col-9">GROSOR LEYENDA:</div> *@
                     <div class="col-12 d-flex justify-content-center text-success fw-bold"><span id="param_grosorLeyenda"></span></div>
                 </div>
             </div>
