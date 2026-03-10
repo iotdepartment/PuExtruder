@@ -271,54 +271,51 @@
 
 <!-- Modal -->
 <div class="modal fade" id="datosGeneralesModal" tabindex="-1" aria-labelledby="datosGeneralesLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog">
         <div class="modal-content">
-            <form asp-action="Generar" method="post" id="formGenerar">
-                <div class="modal-header">
-                    <h5 class="modal-title text-primary" id="datosGeneralesLabel">Datos Generales</h5>
-                </div>
+            <div class="modal-header bg-primary text-light"><h4>Datos generales:</h4></div>
+            <form asp-action="Generar" method="post" id="formGenerar" novalidate>
                 <div class="modal-body">
-
                     <input type="hidden" asp-for="ID" />
                     <input type="hidden" asp-for="STATUS" id="statusField" />
 
                     <div class="row mb-2 align-items-center">
-                        <div class="col-4"><label for="NRO_EMPLEADO" class="form-label"># TM:</label></div>
-                        <div class="col-8">
-                            <select asp-for="NRO_EMPLEADO" asp-items="ViewBag.EmpleadoList" class="form-select" id="empleadoSelect">
-                                <option value=""> Selecciona # </option>
-                            </select>
+                        <div class="col-3"><label for="NRO_EMPLEADO" class="form-label"># TM:</label></div>
+                        <div class="col-9">
+                            <input asp-for="NRO_EMPLEADO" class="form-control" id="empleadoInput" required />
                             <span asp-validation-for="NRO_EMPLEADO" class="text-danger"></span>
                         </div>
                     </div>
 
                     <div class="row mb-2 align-items-center">
-                        <div class="col-4"><label for="NOMBRE" class="form-label"></label>NOMBRE:</div>
-                        <div class="col-8"><input asp-for="NOMBRE" class="form-control" id="nombreEmpleado" readonly /></div>
+                        <div class="col-3"><label for="NOMBRE" class="form-label">NOMBRE:</label></div>
+                        <div class="col-9">
+                            <input asp-for="NOMBRE" class="form-control" id="nombreEmpleado" readonly required />
+                        </div>
                     </div>
 
                     <div class="row mb-2 align-items-center">
-                        <div class="col-4"><label for="EXTRUDER" class="form-label">EXTRUDER:</label></div>
-                        <div class="col-8">
-                            <select asp-for="EXTRUDER" asp-items="ViewBag.ExtruderList" class="form-select" id="extruderSelect">
+                        <div class="col-3"><label for="EXTRUDER" class="form-label">EXTRUDER:</label></div>
+                        <div class="col-9">
+                            <select asp-for="EXTRUDER" asp-items="ViewBag.ExtruderList" class="form-select" id="extruderSelect" required>
                                 <option value=""> Selecciona Extruder </option>
                             </select>
                         </div>
                     </div>
 
                     <div class="row mb-2 align-items-center">
-                        <div class="col-4"><label for="FAMILIA" class="form-label">FAMILIA:</label></div>
-                        <div class="col-8">
-                            <select asp-for="FAMILIA" class="form-select" id="familiaSelect">
+                        <div class="col-3"><label for="FAMILIA" class="form-label">FAMILIA:</label></div>
+                        <div class="col-9">
+                            <select asp-for="FAMILIA" class="form-select" id="familiaSelect" required>
                                 <option value=""> Selecciona Familia </option>
                             </select>
                         </div>
                     </div>
 
                     <div class="row mb-2 align-items-center">
-                        <div class="col-4"><label for="MANDRIL" class="form-label">MANDRIL:</label></div>
-                        <div class="col-8">
-                            <select asp-for="MANDRIL" class="form-select" id="mandrilSelect">
+                        <div class="col-3"><label for="MANDRIL" class="form-label">MANDRIL:</label></div>
+                        <div class="col-9">
+                            <select asp-for="MANDRIL" class="form-select" id="mandrilSelect" required>
                                 <option value=""> Selecciona Mandril </option>
                             </select>
                         </div>
@@ -349,6 +346,27 @@
 
 @section Scripts {
     <script>
+        $(document).ready(function () {
+            $("#formGenerar").on("submit", function (e) {
+                var valido = true;
+
+                // Revisa todos los campos requeridos
+                $(this).find("[required]").each(function () {
+                    if (!$(this).val()) {
+                        valido = false;
+                        $(this).addClass("is-invalid");
+                    } else {
+                        $(this).removeClass("is-invalid");
+                    }
+                });
+
+                if (!valido) {
+                    e.preventDefault(); // Bloquea el submit
+                    alert("⚠️ Debes llenar todos los campos antes de continuar.");
+                }
+            });
+        });
+
         document.addEventListener("DOMContentLoaded", function () {
             var toastEl = document.querySelector('.toast');
             if (toastEl) {
@@ -367,17 +385,22 @@
         });
 
 
-        document.getElementById("empleadoSelect").addEventListener("change", function () {
-            var id = this.value;
-            if (id) {
-                fetch(`/Inspeccion/ObtenerNombreEmpleado?id=${id}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        document.getElementById("nombreEmpleado").value = data.nombre;
+        $(document).ready(function () {
+            $("#empleadoInput").on("keyup", function () {
+                var empleadoId = $(this).val();
+
+                if (empleadoId.length > 0) {
+                    $.getJSON('/Inspeccion/GetEmpleadoNombre', { id: empleadoId }, function (data) {
+                        if (data && data.nombre) {
+                            $("#nombreEmpleado").val(data.nombre);
+                        } else {
+                            $("#nombreEmpleado").val("");
+                        }
                     });
-            } else {
-                document.getElementById("nombreEmpleado").value = "";
-            }
+                } else {
+                    $("#nombreEmpleado").val("");
+                }
+            });
         });
 
         $(document).ready(function () {

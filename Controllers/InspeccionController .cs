@@ -21,7 +21,22 @@ public class InspeccionController : Controller
 
     public async Task<IActionResult> Crear(int? id)
     {
-        // Listas estáticas
+        CargarListas(); // siempre carga las listas
+
+        if (id != null)
+        {
+            var registro = await _context.PUMASTER.FindAsync(id);
+            if (registro != null)
+            {
+                return View(registro);
+            }
+        }
+
+        return View(new PUMASTER());
+    }
+
+    private void CargarListas()
+    {
         ViewBag.ExtruderList = new List<SelectListItem>
     {
         new SelectListItem { Value = "Extruder 1", Text = "Extruder 1" },
@@ -45,7 +60,6 @@ public class InspeccionController : Controller
         new SelectListItem { Value = "NO", Text = "NO" },
     };
 
-        // Familias dinámicas desde TOLERANCES
         var familias = _context.TOLERANCES
                                .Where(t => t.FAMILIA != null)
                                .Select(t => t.FAMILIA!)
@@ -69,19 +83,6 @@ public class InspeccionController : Controller
                 Text = $"{e.ID} - {e.NOMBRE}"
             })
             .ToList();
-
-        // Si viene con id (después de Generar), cargar el registro
-        if (id != null)
-        {
-            var registro = await _context.PUMASTER.FindAsync(id);
-            if (registro != null)
-            {
-                return View(registro); // Vista con datos generales ya llenos
-            }
-        }
-
-        // Si no hay id, devolver vista vacía
-        return View(new PUMASTER());
     }
 
     [HttpGet]
@@ -142,9 +143,8 @@ public class InspeccionController : Controller
         return Json(parametros);
     }
 
-
     [HttpGet]
-    public JsonResult ObtenerNombreEmpleado(int id)
+    public IActionResult GetEmpleadoNombre(int id)
     {
         var empleado = _context.USERS.FirstOrDefault(e => e.ID == id);
         if (empleado != null)
@@ -239,6 +239,7 @@ public class InspeccionController : Controller
 
         TempData["Mensaje"] = "⚠️ Debes completar todos los campos generales en el modal.";
         TempData["TipoMensaje"] = "warning";
+        CargarListas();
         return View("Crear", model);
     }
 
