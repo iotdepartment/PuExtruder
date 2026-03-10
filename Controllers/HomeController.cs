@@ -47,7 +47,8 @@ namespace WebApplication4.Controllers
 
             // Extruders disponibles (sin filtrar)
             ViewBag.Extruders = await _context.PUMASTER
-                .Select(r => r.EXTRUDER)
+                .Where(r => r.EXTRUDER != null)
+                .Select(r => r.EXTRUDER!)
                 .Distinct()
                 .ToListAsync();
 

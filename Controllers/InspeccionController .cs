@@ -19,8 +19,9 @@ public class InspeccionController : Controller
         return View(REGISTROS);
     }
 
-    public IActionResult Crear()
+    public async Task<IActionResult> Crear(int? id)
     {
+        // Listas estáticas
         ViewBag.ExtruderList = new List<SelectListItem>
     {
         new SelectListItem { Value = "Extruder 1", Text = "Extruder 1" },
@@ -44,12 +45,12 @@ public class InspeccionController : Controller
         new SelectListItem { Value = "NO", Text = "NO" },
     };
 
-        // Consulta dinámica de familias desde la tabla TOLERANCES
+        // Familias dinámicas desde TOLERANCES
         var familias = _context.TOLERANCES
-                               .Where(t => t.FAMILIA != null)   // Evita nulos
+                               .Where(t => t.FAMILIA != null)
                                .Select(t => t.FAMILIA!)
                                .Distinct()
-                               .OrderBy(f => f)                 // Opcional: orden alfabético
+                               .OrderBy(f => f)
                                .ToList();
 
         ViewBag.FamiliaList = familias
@@ -61,16 +62,26 @@ public class InspeccionController : Controller
         new SelectListItem { Value = "V5-MX", Text = "V5-MX" },
     };
 
-    ViewBag.EmpleadoList = _context.USERS
-    .Select(e => new SelectListItem
-    {
-        Value = e.ID.ToString(),
-        Text = $"{e.ID} - {e.NOMBRE}"
-    })
-    .ToList();
-        return View();
+        ViewBag.EmpleadoList = _context.USERS
+            .Select(e => new SelectListItem
+            {
+                Value = e.ID.ToString(),
+                Text = $"{e.ID} - {e.NOMBRE}"
+            })
+            .ToList();
 
+        // Si viene con id (después de Generar), cargar el registro
+        if (id != null)
+        {
+            var registro = await _context.PUMASTER.FindAsync(id);
+            if (registro != null)
+            {
+                return View(registro); // Vista con datos generales ya llenos
+            }
+        }
 
+        // Si no hay id, devolver vista vacía
+        return View(new PUMASTER());
     }
 
     [HttpGet]
@@ -143,22 +154,151 @@ public class InspeccionController : Controller
         return Json(new { nombre = "" });
     }
 
+    //[HttpPost]
+    //[ValidateAntiForgeryToken]
+    //public async Task<IActionResult> Crear(PUMASTER model)
+    //{
+    //    if (ModelState.IsValid)
+    //    {
+    //        try
+    //        {
+    //            model.FECHA = DateTime.Today;
+    //            model.HORA = DateTime.Now.TimeOfDay;
+
+    //            _context.PUMASTER.Add(model);
+    //            await _context.SaveChangesAsync();
+
+    //            TempData["Mensaje"] = "✅ Registro guardado correctamente.";
+    //            TempData["TipoMensaje"] = "success";
+    //            return RedirectToAction("Crear");
+    //        }
+    //        catch (Exception ex)
+    //        {
+    //            TempData["Mensaje"] = "❌ Error al guardar el registro: " + ex.Message;
+    //            TempData["TipoMensaje"] = "danger";
+    //            return RedirectToAction("Crear");
+    //        }
+    //    }
+
+    //    TempData["Mensaje"] = "⚠️ Verifica los campos del formulario.";
+    //    TempData["TipoMensaje"] = "warning";
+    //    return View(model);
+    //}
+
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Crear(PUMASTER model)
+    public async Task<IActionResult> Generar(PUMASTER model)
     {
-        if (ModelState.IsValid)
+        if (!string.IsNullOrEmpty(model.NRO_EMPLEADO) &&
+            !string.IsNullOrEmpty(model.NOMBRE) &&
+            !string.IsNullOrEmpty(model.EXTRUDER) &&
+            !string.IsNullOrEmpty(model.MANDRIL) &&
+            !string.IsNullOrEmpty(model.FAMILIA))
         {
             try
             {
                 model.FECHA = DateTime.Today;
                 model.HORA = DateTime.Now.TimeOfDay;
 
+                // Asignar turno automáticamente según la hora actual
+                var horaActual = DateTime.Now.TimeOfDay;
+
+                // Turno 1: 07:00 - 15:30
+                if (horaActual >= new TimeSpan(7, 0, 0) && horaActual <= new TimeSpan(15, 30, 0))
+                {
+                    model.TURNO = "1";
+                }
+                // Turno 2: 15:31 - 23:59
+                else if (horaActual > new TimeSpan(15, 30, 0) && horaActual <= new TimeSpan(23, 59, 59))
+                {
+                    model.TURNO = "2";
+                }
+                // Turno 3: 00:00 - 06:59
+                else
+                {
+                    model.TURNO = "3";
+                }
+
+                model.STATUS = "PARCIAL";
+
                 _context.PUMASTER.Add(model);
                 await _context.SaveChangesAsync();
 
-                TempData["Mensaje"] = "✅ Registro guardado correctamente.";
+                TempData["Mensaje"] = "✅ Registro generado correctamente como PARCIAL.";
                 TempData["TipoMensaje"] = "success";
+
+                return RedirectToAction("Crear", new { id = model.ID });
+            }
+            catch (Exception ex)
+            {
+                TempData["Mensaje"] = "❌ Error al generar el registro: " + ex.Message;
+                TempData["TipoMensaje"] = "danger";
+                return RedirectToAction("Crear");
+            }
+        }
+
+        TempData["Mensaje"] = "⚠️ Debes completar todos los campos generales en el modal.";
+        TempData["TipoMensaje"] = "warning";
+        return View("Crear", model);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Guardar(PUMASTER model)
+    {
+        if (ModelState.IsValid)
+        {
+            try
+            {
+                var registro = await _context.PUMASTER.FindAsync(model.ID);
+                if (registro != null)
+                {
+                    // Actualizar campos de primera pieza
+                    registro.ID_A = model.ID_A;
+                    registro.LONGITUD_A = model.LONGITUD_A;
+                    registro.PARED12_A = model.PARED12_A;
+                    registro.PARED3_A = model.PARED3_A;
+                    registro.PARED6_A = model.PARED6_A;
+                    registro.PARED9_A = model.PARED9_A;
+                    registro.PITCH_A = model.PITCH_A;
+                    registro.PARED_INTERNA_A = model.PARED_INTERNA_A;
+                    registro.PARED_EXTERNA_A = model.PARED_EXTERNA_A;
+                    registro.LONGITUD_LEYENDA_A = model.LONGITUD_LEYENDA_A;
+                    registro.GROSOR_LEYENDA_A = model.GROSOR_LEYENDA_A;
+                    registro.PESO_A = model.PESO_A;
+                    registro.LOGO_A = model.LOGO_A;
+
+                    // Actualizar campos de última pieza
+                    registro.ID_B = model.ID_B;
+                    registro.LONGITUD_B = model.LONGITUD_B;
+                    registro.PARED12_B = model.PARED12_B;
+                    registro.PARED3_B = model.PARED3_B;
+                    registro.PARED6_B = model.PARED6_B;
+                    registro.PARED9_B = model.PARED9_B;
+                    registro.PITCH_B = model.PITCH_B;
+                    registro.PARED_INTERNA_B = model.PARED_INTERNA_B;
+                    registro.PARED_EXTERNA_B = model.PARED_EXTERNA_B;
+                    registro.LONGITUD_LEYENDA_B = model.LONGITUD_LEYENDA_B;
+                    registro.GROSOR_LEYENDA_B = model.GROSOR_LEYENDA_B;
+                    registro.PESO_B = model.PESO_B;
+                    registro.LOGO_B = model.LOGO_B;
+
+                    // Comentarios y estatus
+                    registro.COMENTARIOS = model.COMENTARIOS;
+                    registro.STATUS = "TERMINADO";
+
+                    _context.Update(registro);
+                    await _context.SaveChangesAsync();
+
+                    TempData["Mensaje"] = "✅ Registro actualizado correctamente como TERMINADO.";
+                    TempData["TipoMensaje"] = "success";
+                }
+                else
+                {
+                    TempData["Mensaje"] = "⚠️ No se encontró el registro a actualizar.";
+                    TempData["TipoMensaje"] = "warning";
+                }
+
                 return RedirectToAction("Crear");
             }
             catch (Exception ex)
@@ -169,8 +309,8 @@ public class InspeccionController : Controller
             }
         }
 
-        TempData["Mensaje"] = "⚠️ Verifica los campos del formulario.";
+        TempData["Mensaje"] = "⚠️ Verifica los campos del formulario antes de guardar.";
         TempData["TipoMensaje"] = "warning";
-        return View(model);
+        return View("Crear", model);
     }
 }

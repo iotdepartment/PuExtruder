@@ -3,16 +3,8 @@
     ViewData["Title"] = "Registro de Medidas PU Extruder";
 }
 
-<form asp-action="Crear" method="post" class="form-animado">
-    <div class="container mt-3 shadow-lg p-4 mb-5 bg-white rounded-3">
-        @if (TempData["Mensaje"] != null)
-        {
-            var tipo = TempData["TipoMensaje"]?.ToString() ?? "info";
-            <div class="alert alert-@tipo alert-dismissible fade show" role="alert">
-                @TempData["Mensaje"]
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        }
+<form asp-action="Guardar" method="post">
+    <div class="container-fluid mt-3 shadow-lg p-4 mb-5 bg-white rounded-3 form-animado">
         <h2>REGISTRO DE MEDIDAS PU EXTRUDER</h2>
         <hr class="border border-dark border-0 mb-4 opacity-100">
 
@@ -24,59 +16,37 @@
                 <input type="hidden" asp-for="ID" />
                 <input type="hidden" asp-for="STATUS" id="statusField" />
 
-                <div class="row mb-2 align-items-center">
-                    <div class="col-4"><label for="NRO_EMPLEADO" class="form-label"># TM:</label></div>
+                <!-- Datos Generales en la vista principal -->
+                <div class="row mb-2">
+                    <div class="col-3"><label for="NRO_EMPLEADO" class="form-label mb-2"># TM:</label></div>
                     <div class="col-8">
-                        <select asp-for="NRO_EMPLEADO" asp-items="ViewBag.EmpleadoList" class="form-select" id="empleadoSelect">
-                            <option value=""> Selecciona # </option>
-                        </select>
-                        <span asp-validation-for="NRO_EMPLEADO" class="text-danger"></span>
+                        <input asp-for="NRO_EMPLEADO" class="form-control" readonly />
                     </div>
                 </div>
-
-                <div class="row mb-2 align-items-center">
-                    <div class="col-4"><label for="NOMBRE" class="form-label"></label>NOMBRE:</div>
-                    <div class="col-8"><input asp-for="NOMBRE" class="form-control" id="nombreEmpleado" readonly /></div>
-                </div>
-
-                <div class="row mb-2 align-items-center">
-                    <div class="col-4"><label for="TURNO" class="form-label">TURNO:</label></div>
+                <div class="row mb-2">
+                    <div class="col-3"><label for="NOMBRE" class="form-label">Nombre:</label></div>
                     <div class="col-8">
-                        <select asp-for="TURNO" asp-items="ViewBag.ShiftList" class="form-select ">
-                            <option value=""> Selecciona Turno </option>
-                        </select>
+                        <input asp-for="NOMBRE" class="form-control" readonly />
                     </div>
                 </div>
-
-                <div class="row mb-2 align-items-center">
-                    <div class="col-4"><label for="EXTRUDER" class="form-label">EXTRUDER:</label></div>
+                <div class="row mb-2">
+                    <div class="col-3"><label for="EXTRUDER" class="form-label">Extruder:</label></div>
                     <div class="col-8">
-                        <select asp-for="EXTRUDER" asp-items="ViewBag.ExtruderList" class="form-select" id="extruderSelect">
-                            <option value=""> Selecciona Extruder </option>
-                        </select>
+                        <input asp-for="EXTRUDER" class="form-control" readonly />
                     </div>
                 </div>
-
-                <div class="row mb-2 align-items-center">
-                    <div class="col-4"><label for="FAMILIA" class="form-label">FAMILIA:</label></div>
+                <div class="row mb-2">
+                    <div class="col-3"><label for="FAMILIA" class="form-label">Familia:</label></div>
                     <div class="col-8">
-                        <select asp-for="FAMILIA" class="form-select" id="familiaSelect">
-                            <option value=""> Selecciona Familia </option>
-                        </select>
+                        <input asp-for="FAMILIA" class="form-control" readonly />
                     </div>
                 </div>
-
-
-                <div class="row mb-2 align-items-center">
-                    <div class="col-4"><label for="MANDRIL" class="form-label">MANDRIL:</label></div>
+                <div class="row mb-2">
+                    <div class="col-3"><label for="MANDRIL" class="form-label">Mandril:</label></div>
                     <div class="col-8">
-                        <select asp-for="MANDRIL" class="form-select" id="mandrilSelect">
-                            <option value=""> Selecciona Mandril </option>
-                        </select>
+                        <input asp-for="MANDRIL" class="form-control" readonly />
                     </div>
                 </div>
-
-
             </div>
 
             <!-- Columna 2: PRIMERA PIEZA -->
@@ -299,9 +269,104 @@
     </div>
 </form>
 
-<!-- Script para copiar el nombre del empleado cuando se selecciona el numero del mismo -->
+<!-- Modal -->
+<div class="modal fade" id="datosGeneralesModal" tabindex="-1" aria-labelledby="datosGeneralesLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form asp-action="Generar" method="post" id="formGenerar">
+                <div class="modal-header">
+                    <h5 class="modal-title text-primary" id="datosGeneralesLabel">Datos Generales</h5>
+                </div>
+                <div class="modal-body">
+
+                    <input type="hidden" asp-for="ID" />
+                    <input type="hidden" asp-for="STATUS" id="statusField" />
+
+                    <div class="row mb-2 align-items-center">
+                        <div class="col-4"><label for="NRO_EMPLEADO" class="form-label"># TM:</label></div>
+                        <div class="col-8">
+                            <select asp-for="NRO_EMPLEADO" asp-items="ViewBag.EmpleadoList" class="form-select" id="empleadoSelect">
+                                <option value=""> Selecciona # </option>
+                            </select>
+                            <span asp-validation-for="NRO_EMPLEADO" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row mb-2 align-items-center">
+                        <div class="col-4"><label for="NOMBRE" class="form-label"></label>NOMBRE:</div>
+                        <div class="col-8"><input asp-for="NOMBRE" class="form-control" id="nombreEmpleado" readonly /></div>
+                    </div>
+
+                    <div class="row mb-2 align-items-center">
+                        <div class="col-4"><label for="EXTRUDER" class="form-label">EXTRUDER:</label></div>
+                        <div class="col-8">
+                            <select asp-for="EXTRUDER" asp-items="ViewBag.ExtruderList" class="form-select" id="extruderSelect">
+                                <option value=""> Selecciona Extruder </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mb-2 align-items-center">
+                        <div class="col-4"><label for="FAMILIA" class="form-label">FAMILIA:</label></div>
+                        <div class="col-8">
+                            <select asp-for="FAMILIA" class="form-select" id="familiaSelect">
+                                <option value=""> Selecciona Familia </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mb-2 align-items-center">
+                        <div class="col-4"><label for="MANDRIL" class="form-label">MANDRIL:</label></div>
+                        <div class="col-8">
+                            <select asp-for="MANDRIL" class="form-select" id="mandrilSelect">
+                                <option value=""> Selecciona Mandril </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Generar Registro</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    @if (TempData["Mensaje"] != null)
+{
+    var tipo = TempData["TipoMensaje"]?.ToString() ?? "info";
+    <div class="toast align-items-center text-bg-@tipo border-2 border-success" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                @TempData["Mensaje"]
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+    }
+</div>
+
 @section Scripts {
     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var toastEl = document.querySelector('.toast');
+            if (toastEl) {
+                var toast = new bootstrap.Toast(toastEl);
+                toast.show();
+            }
+        });
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var modal = new bootstrap.Modal(document.getElementById('datosGeneralesModal'));
+            // Mostrar modal solo si el registro aún no existe (ID == 0 o null)
+            if (@Model.ID == 0) {
+                modal.show();
+            }
+        });
+
+
         document.getElementById("empleadoSelect").addEventListener("change", function () {
             var id = this.value;
             if (id) {
@@ -351,54 +416,103 @@
         });
 
         $(document).ready(function () {
-            $("#mandrilSelect").change(function () {
-                var extruder = $("#extruderSelect").val();
-                var familia = $("#familiaSelect").val();
+            var parametros = {};
+
+            // Escuchar el cambio en el mandril de la vista principal
+            $("#MANDRIL").change(function () {
+                var extruder = $("#EXTRUDER").val();
+                var familia = $("#FAMILIA").val();
                 var mandril = $(this).val();
 
                 if (extruder && familia && mandril) {
                     $.getJSON('/Inspeccion/GetParametros',
-                              { extruder: extruder, familia: familia, mandril: mandril },
-                              function (data) {
-                        if (data) {
-                            $("#param_id").text(data.iD_);
-                            $("#param_longitud").text(data.longituD_CORTE);
-                            $("#param_pared12").text(data.pared); 
-                            $("#param_pared3").text(data.pared);
-                            $("#param_pared6").text(data.pared);
-                            $("#param_pared9").text(data.pared);
-                            $("#param_pitch").text(data.pitch);
-                            $("#param_paredInterna").text(data.inneR_YARN);
-                            $("#param_paredExterna").text(data.outeR_YARN);
-                            $("#param_longLeyenda").text(data.longituD_LEYENDA);
-                            $("#param_grosorLeyenda").text(data.grosoR_LEYENDA);
-                        } else {
-                            $(".col-2 span").text(""); 
-                        }
-                    });
+                        { extruder: extruder, familia: familia, mandril: mandril },
+                        function (data) {
+                            if (data) {
+                                parametros = data;
+
+                                // Mostrar nominales en la vista principal
+                                $("#param_id").text(data.iD_);
+                                $("#param_longitud").text(data.longituD_CORTE);
+                                $("#param_pared12").text(data.pared);
+                                $("#param_pared3").text(data.pared);
+                                $("#param_pared6").text(data.pared);
+                                $("#param_pared9").text(data.pared);
+                                $("#param_pitch").text(data.pitch);
+                                $("#param_paredInterna").text(data.inneR_YARN);
+                                $("#param_paredExterna").text(data.outeR_YARN);
+                                $("#param_longLeyenda").text(data.longituD_LEYENDA);
+                                $("#param_grosorLeyenda").text(data.grosoR_LEYENDA);
+                            }
+                        });
                 }
             });
+
+            // Ejecutar automáticamente al cargar la vista principal si ya hay mandril seleccionado
+            if ($("#MANDRIL").val()) {
+                $("#MANDRIL").trigger("change");
+            }
         });
+
+        // $(document).ready(function () {
+        //     $("#mandrilSelect").change(function () {
+        //         var extruder = $("#extruderSelect").val();
+        //         var familia = $("#familiaSelect").val();
+        //         var mandril = $(this).val();
+
+        //         if (extruder && familia && mandril) {
+        //             $.getJSON('/Inspeccion/GetParametros',
+        //                       { extruder: extruder, familia: familia, mandril: mandril },
+        //                       function (data) {
+        //                 if (data) {
+        //                     $("#param_id").text(data.iD_);
+        //                     $("#param_longitud").text(data.longituD_CORTE);
+        //                     $("#param_pared12").text(data.pared); 
+        //                     $("#param_pared3").text(data.pared);
+        //                     $("#param_pared6").text(data.pared);
+        //                     $("#param_pared9").text(data.pared);
+        //                     $("#param_pitch").text(data.pitch);
+        //                     $("#param_paredInterna").text(data.inneR_YARN);
+        //                     $("#param_paredExterna").text(data.outeR_YARN);
+        //                     $("#param_longLeyenda").text(data.longituD_LEYENDA);
+        //                     $("#param_grosorLeyenda").text(data.grosoR_LEYENDA);
+        //                 } else {
+        //                     $(".col-2 span").text(""); 
+        //                 }
+        //             });
+        //         }
+        //     });
+        // });
+
+        // $("#mandrilSelect").change(function () {
+        //         var extruder = $("#extruderSelect").val();
+        //         var familia = $("#familiaSelect").val();
+        //         var mandril = $(this).val();
 
         $(document).ready(function () {
             var parametros = {};
 
-            // Al seleccionar mandril, guardamos los nominales y tolerancias
-            $("#mandrilSelect").change(function () {
-                var extruder = $("#extruderSelect").val();
-                var familia = $("#familiaSelect").val();
+            // Al cambiar mandril en la vista principal
+            $("#MANDRIL").change(function () {
+                var extruder = $("#EXTRUDER").val();
+                var familia = $("#FAMILIA").val();
                 var mandril = $(this).val();
 
                 if (extruder && familia && mandril) {
                     $.getJSON('/Inspeccion/GetParametros',
-                              { extruder: extruder, familia: familia, mandril: mandril },
-                              function (data) {
-                        if (data) {
-                            parametros = data; // guardamos todo el objeto JSON
-                        }
-                    });
+                        { extruder: extruder, familia: familia, mandril: mandril },
+                        function (data) {
+                            if (data) {
+                                parametros = data;
+                            }
+                        });
                 }
             });
+
+        if ($("#MANDRIL").val()) {
+            $("#MANDRIL").trigger("change");
+        }
+
 
             // Función genérica de validación
             function validarCampo(inputId, nominal, tol) {
@@ -416,6 +530,7 @@
                     $(inputId).removeClass("is-valid is-invalid");
                 }
             }
+
 
 
             // Validaciones en tiempo real

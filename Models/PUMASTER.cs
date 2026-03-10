@@ -1,35 +1,38 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Org.BouncyCastle.Math;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 public class PUMASTER
 {
+    //Id del registro
     public int ID { get; set; }
 
-    // Datos generales y primera pieza obligatorios
-    [Required] public string? NRO_EMPLEADO { get; set; }
-    [Required] public string? NOMBRE { get; set; }
-    [Required] public string? TURNO { get; set; }
-    [Required] public DateTime FECHA { get; set; }
-    [Required] public TimeSpan HORA { get; set; }
-    [Required] public string? EXTRUDER { get; set; }
-    [Required] public string? MANDRIL { get; set; }
-    [Required] public string? FAMILIA { get; set; }
+    //Datos generales del registro
+    public string? NRO_EMPLEADO { get; set; }
+    public string? NOMBRE { get; set; }
+    public string? TURNO { get; set; }
+    public DateTime FECHA { get; set; }
+    public TimeSpan HORA { get; set; }
+    public string? EXTRUDER { get; set; }
+    public string? MANDRIL { get; set; }
+    public string? FAMILIA { get; set; }
 
-    [Required] public string? ID_A { get; set; }
-    [Required] public string? LONGITUD_A { get; set; }
-    [Required] public string? PARED12_A { get; set; }
-    [Required] public string? PARED3_A { get; set; }
-    [Required] public string? PARED6_A { get; set; }
-    [Required] public string? PARED9_A { get; set; }
-    [Required] public string? PITCH_A { get; set; }
-    [Required] public string? PARED_INTERNA_A { get; set; }
-    [Required] public string? PARED_EXTERNA_A { get; set; }
-    [Required] public string? LONGITUD_LEYENDA_A { get; set; }
-    [Required] public string? GROSOR_LEYENDA_A { get; set; }
-    [Required] public string? PESO_A { get; set; }
-    [Required] public string? LOGO_A { get; set; }
+    //Datos Primera pieza
+    public string? ID_A { get; set; }
+    public string? LONGITUD_A { get; set; }
+    public string? PARED12_A { get; set; }
+    public string? PARED3_A { get; set; }
+    public string? PARED6_A { get; set; }
+    public string? PARED9_A { get; set; }
+    public string? PITCH_A { get; set; }
+    public string? PARED_INTERNA_A { get; set; }
+    public string? PARED_EXTERNA_A { get; set; }
+    public string? LONGITUD_LEYENDA_A { get; set; }
+    public string? GROSOR_LEYENDA_A { get; set; }
+    public string? PESO_A { get; set; }
+    public string? LOGO_A { get; set; }
 
-    // Última pieza opcional
+    //Datos Ultima pieza
     public string? ID_B { get; set; }
     public string? LONGITUD_B { get; set; }
     public string? PARED12_B { get; set; }
@@ -44,6 +47,7 @@ public class PUMASTER
     public string? PESO_B { get; set; }
     public string? LOGO_B { get; set; }
 
+    //Comentarios y estatus del registro
     public string? COMENTARIOS { get; set; }
     public string? STATUS { get; set; }
 }
