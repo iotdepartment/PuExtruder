@@ -346,6 +346,27 @@
 
 @section Scripts {
     <script>
+
+
+        $(document).ready(function () {
+
+            $("input, select").on("keydown", function (e) {
+                if (e.key === "Enter") {
+                    e.preventDefault();
+
+                    // Obtener todos los inputs y selects visibles
+                    var campos = $("input:visible, select:visible, textarea:visible");
+
+                    var index = campos.index(this);
+
+                    if (index > -1 && index < campos.length - 1) {
+                        campos.eq(index + 1).focus();
+                    }
+                }
+            });
+
+        });
+
         $(document).ready(function () {
             $("#formGenerar").on("submit", function (e) {
                 var valido = true;
@@ -380,7 +401,7 @@
             var modal = new bootstrap.Modal(document.getElementById('datosGeneralesModal'));
             // Mostrar modal solo si el registro aún no existe (ID == 0 o null)
             if (@Model.ID == 0) {
-                modal.show();
+                modal.show();   
             }
         });
 
@@ -476,42 +497,6 @@
                 $("#MANDRIL").trigger("change");
             }
         });
-
-        // $(document).ready(function () {
-        //     $("#mandrilSelect").change(function () {
-        //         var extruder = $("#extruderSelect").val();
-        //         var familia = $("#familiaSelect").val();
-        //         var mandril = $(this).val();
-
-        //         if (extruder && familia && mandril) {
-        //             $.getJSON('/Inspeccion/GetParametros',
-        //                       { extruder: extruder, familia: familia, mandril: mandril },
-        //                       function (data) {
-        //                 if (data) {
-        //                     $("#param_id").text(data.iD_);
-        //                     $("#param_longitud").text(data.longituD_CORTE);
-        //                     $("#param_pared12").text(data.pared); 
-        //                     $("#param_pared3").text(data.pared);
-        //                     $("#param_pared6").text(data.pared);
-        //                     $("#param_pared9").text(data.pared);
-        //                     $("#param_pitch").text(data.pitch);
-        //                     $("#param_paredInterna").text(data.inneR_YARN);
-        //                     $("#param_paredExterna").text(data.outeR_YARN);
-        //                     $("#param_longLeyenda").text(data.longituD_LEYENDA);
-        //                     $("#param_grosorLeyenda").text(data.grosoR_LEYENDA);
-        //                 } else {
-        //                     $(".col-2 span").text(""); 
-        //                 }
-        //             });
-        //         }
-        //     });
-        // });
-
-        // $("#mandrilSelect").change(function () {
-        //         var extruder = $("#extruderSelect").val();
-        //         var familia = $("#familiaSelect").val();
-        //         var mandril = $(this).val();
-
         $(document).ready(function () {
             var parametros = {};
 

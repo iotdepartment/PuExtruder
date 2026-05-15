@@ -1,6 +1,5 @@
-using System;
-using WebApplication4.Models;
 using Microsoft.EntityFrameworkCore;
+using WebApplication4.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +28,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Imprimir}/{id?}");
 
 app.Run();

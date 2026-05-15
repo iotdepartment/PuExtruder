@@ -4,7 +4,6 @@
     ViewData["Title"] = "Registro de PU electronico";
 }
 
-<!-- CDN Bootstrap 5 + DataTables -->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" />
 
 <div class="container-fluid mb-4 mt-3 p-4 rounded-3 shadow-lg bg-light form-animado">
@@ -103,15 +102,12 @@
 </div>
 
 @section Scripts {
-
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
     <script>
         $(document).ready(function () {
-
-            // Inicializar DataTables
             var table = $('#Pu').DataTable({
                 pageLength: 10,
                 order: [],
@@ -120,27 +116,21 @@
                 }
             });
 
-            // Evento para cargar detalles usando child rows
             $('#Pu tbody').on('click', '.btn-detalle', function () {
-
                 var tr = $(this).closest('tr');
                 var row = table.row(tr);
                 var id = $(this).data("id");
 
-                // Si ya está abierto, lo cerramos
                 if (row.child.isShown()) {
                     row.child.hide();
                     tr.removeClass('shown');
                     return;
                 }
 
-                // Mostrar spinner mientras carga
                 row.child('<div class="text-center p-3"><div class="spinner-border text-primary"></div></div>').show();
                 tr.addClass('shown');
-
-                // Cargar partial por AJAX
                 $.ajax({
-                    url: "/Home/Detalle",   // <-- Ajusta si tu controlador es Inspeccion
+                    url: "/Home/Detalle",
                     type: "GET",
                     data: { id: id },
                     success: function (html) {
@@ -150,9 +140,7 @@
                         row.child("<p class='text-danger p-3'>Error al cargar detalles.</p>").show();
                     }
                 });
-
             });
-
         });
     </script>
 }
