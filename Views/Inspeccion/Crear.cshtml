@@ -84,16 +84,16 @@
                 </div>
 
                 <div class="row mb-2 align-items-center">
-                    <div class="col-6"><label for="PITCH_A" class="form-label">PITCH:</label></div>
+                    <div class="col-6"><label for="PITCH_A" class="form-label" id="lbl_pitch_a">PITCH:</label></div>
                     <div class="col-6"><input asp-for="PITCH_A" class="form-control" type="number" step="any" /></div>
                 </div>
 
-                <div class="row mb-2 align-items-center">
+                <div class="row mb-2 align-items-center" id="row_pared_interna_a">
                     <div class="col-6"><label for="PARED_INTERNA_A" class="form-label">PARED INTERNA:</label></div>
                     <div class="col-6"><input asp-for="PARED_INTERNA_A" class="form-control" type="number" step="any" /></div>
                 </div>
 
-                <div class="row mb-2 align-items-center">
+                <div class="row mb-2 align-items-center" id="row_pared_externa_a">
                     <div class="col-6"><label for="PARED_EXTERNA_A" class="form-label">PARED EXTERNA:</label></div>
                     <div class="col-6"><input asp-for="PARED_EXTERNA_A" class="form-control" type="number" step="any" /></div>
                 </div>
@@ -159,18 +159,18 @@
                 </div>
 
                 <div class="row mb-2 align-items-center">
-                    <div class="col-6"><label for="PITCH_B" class="form-label">PITCH:</label></div>
+                    <div class="col-6"><label for="PITCH_B" class="form-label" id="lbl_pitch_b">PITCH:</label></div>
                     <div class="col-6"><input asp-for="PITCH_B" class="form-control" type="number" step="any"/></div>
                 </div>
 
-                <div class="row mb-2 align-items-center">
+                <div class="row mb-2 align-items-center" id="row_pared_interna_b">
                     <div class="col-6"><label for="PARED_INTERNA_B" class="form-label">PARED INTERNA:</label></div>
-                    <div class="col-6"><input asp-for="PARED_INTERNA_B" class="form-control" type="number" step="any"/></div>
+                    <div class="col-6"><input asp-for="PARED_INTERNA_B" class="form-control" type="number" step="any" /></div>
                 </div>
 
-                <div class="row mb-2 align-items-center">
+                <div class="row mb-2 align-items-center" id="row_pared_externa_b">
                     <div class="col-6"><label for="PARED_EXTERNA_B" class="form-label">PARED EXTERNA:</label></div>
-                    <div class="col-6"><input asp-for="PARED_EXTERNA_B" class="form-control" type="number" step="any"/></div>
+                    <div class="col-6"><input asp-for="PARED_EXTERNA_B" class="form-control" type="number" step="any" /></div>
                 </div>
 
                 <div class="row mb-2 align-items-center">
@@ -230,11 +230,11 @@
                     <div class="col-12 d-flex justify-content-center text-success fw-bold"><span id="param_pitch"></span></div>
                 </div>
 
-                <div class="row mb-4">
+                <div class="row mb-4" id="row_param_pared_interna">
                     <div class="col-12 d-flex justify-content-center text-success fw-bold"><span id="param_paredInterna"></span></div>
                 </div>
 
-                <div class="row mb-4">
+                <div class="row mb-4" id="row_param_pared_externa">
                     <div class="col-12 d-flex justify-content-center text-success fw-bold"><span id="param_paredExterna"></span></div>
                 </div>
 
@@ -270,7 +270,7 @@
 </form>
 
 <!-- Modal -->
-<div class="modal fade" id="datosGeneralesModal" tabindex="-1" aria-labelledby="datosGeneralesLabel" aria-hidden="true">
+<div class="modal fade" id="datosGeneralesModal" tabindex="-1" aria-labelledby="datosGeneralesLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-primary text-light"><h4>Datos generales:</h4></div>
@@ -321,13 +321,16 @@
                         </div>
                     </div>
                 </div>
+                <!-- Footer Modificado: Se añade el botón Cancelar que redirige -->
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Generar Registro</button>
+                    <button type="submit" class="btn btn-success rounded-pill">Generar Registro</button>
+                    <a href="@Url.Action("Index", "Home")" class="btn btn-secondary rounded-pill">Cancelar</a>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
 
 <div class="toast-container position-fixed bottom-0 end-0 p-3">
     @if (TempData["Mensaje"] != null)
@@ -388,20 +391,63 @@
             });
         });
 
+                // Control de Toasts, Alertas y Modal de inicio con Validación de Extruder al Cargar
         document.addEventListener("DOMContentLoaded", function () {
+
+            // Función para cambiar etiquetas según el Extruder actual
+           // Función para cambiar etiquetas y ocultar/mostrar campos según el Extruder actual
+            function verificarTextoPitch(extruderValor) {
+                if (extruderValor === "Extruder 2") {
+                    // 1. Cambiar textos
+                    $("#lbl_pitch_a").text("CSM:");
+                    $("#lbl_pitch_b").text("CSM:");
+
+                    // 2. Ocultar filas de Pared Interna y Externa (Pieza A, Pieza B y Nominales)
+                    $("#row_pared_interna_a, #row_pared_externa_a").hide();
+                    $("#row_pared_interna_b, #row_pared_externa_b").hide();
+                    $("#row_param_pared_interna, #row_param_pared_externa").hide();
+
+                    // Opcional: Limpiar los inputs al ocultarse para evitar enviar basura
+                    $("#PARED_INTERNA_A, #PARED_EXTERNA_A, #PARED_INTERNA_B, #PARED_EXTERNA_B").val('');
+                } else {
+                    // 1. Restaurar textos
+                    $("#lbl_pitch_a").text("PITCH:");
+                    $("#lbl_pitch_b").text("PITCH:");
+
+                    // 2. Mostrar filas si es cualquier otro Extruder
+                    $("#row_pared_interna_a, #row_pared_externa_a").show();
+                    $("#row_pared_interna_b, #row_pared_externa_b").show();
+                    $("#row_param_pared_interna, #row_param_pared_externa").show();
+                }
+            }
+
+            // Ejecutar la revisión inmediatamente al cargar la página usando el valor actual del modelo
+            var extruderActual = $("#EXTRUDER").val();
+            verificarTextoPitch(extruderActual);
+
+            // Hacer la función accesible para el selector del modal
+            window.verificarTextoPitch = verificarTextoPitch;
+            // =========================
+
+            // Tu lógica original del Modal
+            var modal = new bootstrap.Modal(document.getElementById('datosGeneralesModal'));
+            if (@Model.ID == 0) {
+                modal.show();
+            }
+
+            // Tu lógica original de Toasts y Alertas
             var toastEl = document.querySelector('.toast');
             if (toastEl) {
                 var toast = new bootstrap.Toast(toastEl);
                 toast.show();
             }
-        });
 
-
-        document.addEventListener("DOMContentLoaded", function () {
-            var modal = new bootstrap.Modal(document.getElementById('datosGeneralesModal'));
-            // Mostrar modal solo si el registro aún no existe (ID == 0 o null)
-            if (@Model.ID == 0) {
-                modal.show();   
+            var alertEl = document.querySelector('.alert');
+            if (alertEl) {
+                setTimeout(function () {
+                    var alert = bootstrap.Alert.getOrCreateInstance(alertEl);
+                    alert.close();
+                }, 2000);
             }
         });
 
@@ -424,14 +470,18 @@
             });
         });
 
+                // 5. Selects dependientes en el Modal (Extruder -> Familia -> Mandril) y Cambio Dinámico de Etiquetas
         $(document).ready(function () {
-            // Cuando cambia el extruder, actualiza familias
             $("#extruderSelect").change(function () {
                 var extruder = $(this).val();
-                $("#familiaSelect").empty();
-                $("#familiaSelect").append('<option value="">-- Selecciona Familia --</option>');
-                $("#mandrilSelect").empty();
-                $("#mandrilSelect").append('<option value="">-- Selecciona Mandril --</option>');
+
+                if (typeof window.verificarTextoPitch === "function") {
+                    window.verificarTextoPitch(extruder);
+                }
+
+                // Tu lógica existente para limpiar y rellenar familias
+                $("#familiaSelect").empty().append('<option value="">-- Selecciona Familia --</option>');
+                $("#mandrilSelect").empty().append('<option value="">-- Selecciona Mandril --</option>');
 
                 if (extruder) {
                     $.getJSON('/Inspeccion/GetFamiliasByExtruder', { extruder: extruder }, function (data) {
