@@ -60,7 +60,6 @@
                 <table id="Pu" class="table table-striped table-bordered">
                     <thead class="table-dark">
                         <tr>
-                            <th>Estado</th>
                             <th>TM</th>
                             <th>Turno</th>
                             <th>Fecha/Hora</th>
@@ -75,7 +74,6 @@
                         @foreach (var item in Model)
                         {
                             <tr>
-                                <td>@item?.STATUS</td>
                                 <td>@item?.NOMBRE (@item?.NRO_EMPLEADO)</td>
                                 <td>@item?.TURNO</td>
                                 <td>@item?.FECHA.ToShortDateString() / @item?.HORA.ToString(@"hh\:mm")</td>

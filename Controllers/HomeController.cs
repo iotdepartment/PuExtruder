@@ -5,10 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using MimeKit;
 using OfficeOpenXml;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using WebApplication4.Models;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace WebApplication4.Controllers
 {
@@ -27,7 +24,10 @@ namespace WebApplication4.Controllers
 
         public async Task<IActionResult> Index(string extruder, DateTime? fecha)
         {
-            var query = _context.PUMASTER.AsQueryable();
+            // Filtro base: Solo registros con STATUS 'TERMINADO' (ignorando espacios o mayúsculas)
+            var query = _context.PUMASTER
+                .Where(r => r.STATUS != null && r.STATUS.Trim() == "TERMINADO")
+                .AsQueryable();
 
             // Filtro por extruder
             if (!string.IsNullOrEmpty(extruder))
@@ -45,9 +45,9 @@ namespace WebApplication4.Controllers
                 .OrderByDescending(r => r.ID)
                 .ToListAsync();
 
-            // Extruders disponibles (sin filtrar)
+            // Extruders disponibles (solo de los registros que ya están TERMINADO)
             ViewBag.Extruders = await _context.PUMASTER
-                .Where(r => r.EXTRUDER != null)
+                .Where(r => r.STATUS != null && r.STATUS.Trim() == "TERMINADO" && r.EXTRUDER != null)
                 .Select(r => r.EXTRUDER!)
                 .Distinct()
                 .ToListAsync();
@@ -57,6 +57,7 @@ namespace WebApplication4.Controllers
 
             return View(registros);
         }
+
         public IActionResult Detalle(int id)
         {
             var item = _context.PUMASTER.FirstOrDefault(x => x.ID == id);
