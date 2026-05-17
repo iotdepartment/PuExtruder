@@ -29,22 +29,34 @@
         </tr>
 
         <tr>
-            <td><strong>Pitch</strong></td>
+            <td>
+                @if (Model.EXTRUDER == "Extruder 2")
+                {
+                    <strong>CSM</strong>
+                }
+                else
+                {
+                    <strong>Pitch</strong>
+                }
+            </td>
             <td>@Model.PITCH_A</td>
             <td>@Model.PITCH_B</td>
         </tr>
 
-        <tr>
-            <td><strong>P. Interna</strong></td>
-            <td>@Model.PARED_INTERNA_A</td>
-            <td>@Model.PARED_INTERNA_B</td>
-        </tr>
+        @if (Model.EXTRUDER != "Extruder 2")
+        {
+            <tr>
+                <td><strong>P. Interna</strong></td>
+                <td>@Model.PARED_INTERNA_A</td>
+                <td>@Model.PARED_INTERNA_B</td>
+            </tr>
 
-        <tr>
-            <td><strong>P. Externa</strong></td>
-            <td>@Model.PARED_EXTERNA_A</td>
-            <td>@Model.PARED_EXTERNA_B</td>
-        </tr>
+            <tr>
+                <td><strong>P. Externa</strong></td>
+                <td>@Model.PARED_EXTERNA_A</td>
+                <td>@Model.PARED_EXTERNA_B</td>
+            </tr>
+        }
 
         <tr>
             <td><strong>Long Leyenda</strong></td>
@@ -71,6 +83,7 @@
         </tr>
     </tbody>
 </table>
+
 <div class="row">
     <div class="container-fluid"><strong>Comentarios: </strong>@Model.COMENTARIOS</div>
 </div>

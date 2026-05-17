@@ -3,7 +3,7 @@
     ViewData["Title"] = "Registro de Medidas PU Extruder";
 }
 
-<form asp-action="Guardar" method="post">
+<form asp-action="Guardar" method="post" id="formGuardarPrincipal" novalidate>
     <div class="container-fluid mt-3 shadow-lg p-4 mb-5 bg-white rounded-3 form-animado">
         <h2>REGISTRO DE MEDIDAS PU EXTRUDER</h2>
         <hr class="border border-dark border-0 mb-4 opacity-100">
@@ -50,7 +50,7 @@
             </div>
 
             <!-- Columna 2: PRIMERA PIEZA -->
-            <div class="col-4">
+            <div class="col-4 columna-pieza">
                 <h5 class="text-primary border-bottom pb-2 mb-3">PRIMERA PIEZA</h5>
 
                 <div class="row mb-2 align-items-center">
@@ -125,7 +125,7 @@
             </div>
             
             <!-- Columna 3: ULTIMA PIEZA -->
-            <div class="col-4">
+            <div class="col-4 columna-pieza">
                 <h5 class="text-primary border-bottom pb-2 mb-3">ULTIMA PIEZA</h5>
 
                 <div class="row mb-2 align-items-center">
@@ -263,7 +263,6 @@
             <div class="col-md-12 text-end">
                 <button type="submit" class="btn btn-success px-4 me-2 shadow-sm rounded-pill">Guardar</button>
                 <button type="reset" class="btn btn-secondary px-4 me-2 rounded-pill">Limpiar</button>
-                <a asp-action="Index" asp-controller="Home" class="btn btn-info px-4 rounded-pill">Mostrar Registros</a>
             </div>
         </div>
     </div>
@@ -349,6 +348,58 @@
 
 @section Scripts {
     <script>
+
+        $(document).ready(function () {
+            // Este script ahora controla estrictamente el formulario de GUARDAR
+            $("#formGuardarPrincipal").on("submit", function (e) {
+                var todoValido = true;
+                var primerCampoVacio = null;
+
+                // 1. Buscamos TODOS los inputs y selects VISIBLES dentro de las columnas A y B
+                $(".columna-pieza").find("input:visible, select:visible").each(function () {
+                    var valor = $(this).val();
+
+                    // Si el campo está vacío, tiene puros espacios o no se ha elegido opción en el select
+                    if (!valor || valor.trim() === "") {
+                        todoValido = false;
+                        $(this).addClass("is-invalid").removeClass("is-valid");
+
+                        // Guardamos el primer campo que falló para regresarle el foco
+                        if (!primerCampoVacio) {
+                            primerCampoVacio = $(this);
+                        }
+                    } else {
+                        // Si ya tenía la clase is-invalid por culpa de las tolerancias numéricas, respetamos ese error
+                        if (!$(this).hasClass("is-invalid")) {
+                            $(this).removeClass("is-invalid").addClass("is-valid");
+                        }
+                    }
+                });
+
+                // 2. Validaciones obligatorias extras para observaciones de leyendas incorrectas ("NO")
+                if ($('#LOGO_A').val() === "NO" && $('#obs_logo_a').val().trim() === "") {
+                    $('#obs_logo_a').addClass('is-invalid');
+                    todoValido = false;
+                    if (!primerCampoVacio) primerCampoVacio = $('#obs_logo_a');
+                }
+                if ($('#LOGO_B').val() === "NO" && $('#obs_logo_b').val().trim() === "") {
+                    $('#obs_logo_b').addClass('is-invalid');
+                    todoValido = false;
+                    if (!primerCampoVacio) primerCampoVacio = $('#obs_logo_b');
+                }
+
+                // 3. Freno definitivo si falta un solo campo de las piezas
+                if (!todoValido) {
+                    e.preventDefault(); // BLOQUEA el guardado por completo
+                    alert("⚠️ No se puede guardar: Es obligatorio llenar todos los campos de medición de la Primera y Última Pieza.");
+
+                    // Mandamos el cursor del usuario directo al campo que olvidó llenar
+                    if (primerCampoVacio) {
+                        primerCampoVacio.focus();
+                    }
+                }
+            });
+        });
 
 
         $(document).ready(function () {
